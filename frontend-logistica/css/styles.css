@@ -1,0 +1,235 @@
+/* =====================================================
+   LOGITRANS - Gestion de Vehiculos
+   Paleta morada / purpura
+   ===================================================== */
+
+:root {
+    --purple-900: #4c1d95;
+    --purple-700: #6d28d9;
+    --purple-600: #7c3aed;
+    --purple-500: #a855f7;
+    --purple-50:  #faf5ff;
+    --purple-100: #f5f3ff;
+    --purple-200: #ede9fe;
+
+    --green-bg: #dcfce7;  --green-tx: #166534;
+    --yellow-bg:#fef9c3;  --yellow-tx:#854d0e;
+    --orange-bg:#ffedd5;  --orange-tx:#9a3412;
+    --gray-bg:  #e5e7eb;  --gray-tx:  #374151;
+
+    --txt: #1f2937;
+    --muted: #6b7280;
+    --shadow: 0 4px 14px rgba(124, 58, 237, 0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--purple-50);
+    color: var(--txt);
+    padding-bottom: 40px;
+}
+
+/* ---------- HERO ---------- */
+.hero {
+    background-image:
+        linear-gradient(135deg, rgba(76,29,149,.88), rgba(124,58,237,.6)),
+        url('../assets/hero-camion.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+.hero__overlay {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px 56px;
+}
+.hero__brand { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.hero__logo {
+    width: 36px; height: 36px;
+    background: #fff; color: var(--purple-700);
+    border-radius: 9px;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 20px;
+}
+.hero__name { font-weight: 700; letter-spacing: 1px; font-size: 18px; }
+.hero__title { font-size: 38px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 12px rgba(0,0,0,.3); }
+.hero__subtitle { margin-top: 8px; opacity: .92; font-size: 15px; }
+
+/* ---------- CONTAINER ---------- */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ---------- MENSAJES ---------- */
+.mensaje {
+    margin-top: -24px;
+    position: relative;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-weight: 600;
+    box-shadow: var(--shadow);
+}
+.mensaje--ok    { background: var(--green-bg);  color: var(--green-tx); }
+.mensaje--error { background: #fee2e2;          color: #991b1b; }
+
+/* ---------- STATS ---------- */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: -28px;
+    position: relative;
+}
+.stat {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--purple-500);
+}
+.stat--ok   { border-top-color: #22c55e; }
+.stat--ruta { border-top-color: #eab308; }
+.stat--mant { border-top-color: #f97316; }
+.stat__num { font-size: 32px; font-weight: 800; color: var(--purple-700); }
+.stat--ok   .stat__num { color: #16a34a; }
+.stat--ruta .stat__num { color: #ca8a04; }
+.stat--mant .stat__num { color: #ea580c; }
+.stat__label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+/* ---------- TOOLBAR ---------- */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+.toolbar__filters { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ---------- INPUTS / BOTONES ---------- */
+.input {
+    padding: 10px 14px;
+    border: 1px solid var(--purple-200);
+    border-radius: 10px;
+    font-size: 14px;
+    background: #fff;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+}
+.input:focus { border-color: var(--purple-500); box-shadow: 0 0 0 3px rgba(168,85,247,.18); }
+
+.btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform .1s, box-shadow .15s, background .15s;
+}
+.btn:active { transform: translateY(1px); }
+.btn--primary {
+    background: linear-gradient(135deg, var(--purple-600), var(--purple-500));
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(124,58,237,.35);
+}
+.btn--primary:hover { box-shadow: 0 6px 18px rgba(124,58,237,.45); }
+.btn--ghost {
+    background: #fff;
+    color: var(--purple-700);
+    border: 1px solid var(--purple-200);
+}
+.btn--ghost:hover { background: var(--purple-100); }
+
+/* ---------- TABLA ---------- */
+.card-table {
+    margin-top: 18px;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+.tabla { width: 100%; border-collapse: collapse; }
+.tabla thead th {
+    background: var(--purple-700);
+    color: #fff;
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+}
+.tabla tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--purple-100);
+    font-size: 14px;
+}
+.tabla tbody tr:hover { background: var(--purple-50); }
+.tabla__placa { font-weight: 700; color: var(--purple-900); }
+.tabla__empty { text-align: center; color: var(--muted); padding: 30px; }
+
+/* ---------- BADGES ESTADO ---------- */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.badge--disponible    { background: var(--green-bg);  color: var(--green-tx); }
+.badge--en_ruta       { background: var(--yellow-bg); color: var(--yellow-tx); }
+.badge--mantenimiento { background: var(--orange-bg); color: var(--orange-tx); }
+.badge--inactivo      { background: var(--gray-bg);   color: var(--gray-tx); }
+
+/* ---------- ACCIONES TABLA ---------- */
+.acciones { display: flex; gap: 8px; }
+.icon-btn {
+    border: none;
+    background: var(--purple-100);
+    color: var(--purple-700);
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background .15s;
+}
+.icon-btn:hover { background: var(--purple-200); }
+.icon-btn--del { background: #fee2e2; color: #b91c1c; }
+.icon-btn--del:hover { background: #fecaca; }
+
+/* ---------- MODAL ---------- */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 10, 60, .55);
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    z-index: 50;
+}
+.modal__box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.3);
+}
+.modal__title { color: var(--purple-900); margin-bottom: 18px; font-size: 22px; }
+
+/* ---------- FORM ---------- */
+.form__group { margin-bottom: 14px; display: flex; flex-direction: column; }
+.form__group label { font-size: 13px; font-weight: 600; color: var(--txt); margin-bottom: 6px; }
+.form__group .input { width: 100%; }
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form__actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 720px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .hero__title { font-size: 28px; }
+    .form__row { grid-template-columns: 1fr; }
+    .tabla thead { display: none; }
+}

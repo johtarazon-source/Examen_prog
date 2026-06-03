@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGITRANS · Gestión de Vehículos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero__overlay">
+            <div class="hero__brand">
+                <span class="hero__logo">L</span>
+                <span class="hero__name">LOGITRANS</span>
+            </div>
+            <h1 class="hero__title">Gestión de Vehículos</h1>
+            <p class="hero__subtitle">Control de flota de transporte de carga</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- MENSAJES -->
+        <div id="mensaje" class="mensaje" hidden></div>
+
+        <!-- ESTADÍSTICAS -->
+        <section class="stats">
+            <div class="stat stat--total">
+                <div class="stat__num" id="statTotal">0</div>
+                <div class="stat__label">Total</div>
+            </div>
+            <div class="stat stat--ok">
+                <div class="stat__num" id="statDisponibles">0</div>
+                <div class="stat__label">Disponibles</div>
+            </div>
+            <div class="stat stat--ruta">
+                <div class="stat__num" id="statEnRuta">0</div>
+                <div class="stat__label">En ruta</div>
+            </div>
+            <div class="stat stat--mant">
+                <div class="stat__num" id="statMantenimiento">0</div>
+                <div class="stat__label">Mantenimiento</div>
+            </div>
+        </section>
+
+        <!-- BARRA DE ACCIONES -->
+        <section class="toolbar">
+            <div class="toolbar__filters">
+                <input type="text" id="filtroPlaca" class="input" placeholder="Buscar por placa...">
+                <select id="filtroTipo" class="input">
+                    <option value="">Todos los tipos</option>
+                    <option value="Camion">Camión</option>
+                    <option value="Furgon">Furgón</option>
+                </select>
+                <select id="filtroEstado" class="input">
+                    <option value="">Todos los estados</option>
+                    <option value="disponible">Disponible</option>
+                    <option value="en_ruta">En ruta</option>
+                    <option value="mantenimiento">Mantenimiento</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+                <button class="btn btn--ghost" id="btnBuscar">Buscar</button>
+            </div>
+            <button class="btn btn--primary" id="btnNuevo">+ Nuevo vehículo</button>
+        </section>
+
+        <!-- TABLA -->
+        <section class="card-table">
+            <table class="tabla">
+                <thead>
+                    <tr>
+                        <th>Placa</th>
+                        <th>Tipo</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Capacidad</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaBody">
+                    <tr><td colspan="7" class="tabla__empty">Cargando...</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- MODAL FORMULARIO -->
+    <div class="modal" id="modal" hidden>
+        <div class="modal__box">
+            <h2 class="modal__title" id="modalTitulo">Nuevo vehículo</h2>
+            <form id="formVehiculo" class="form">
+                <input type="hidden" id="vehiculoId">
+
+                <div class="form__group">
+                    <label for="placa">Placa *</label>
+                    <input type="text" id="placa" class="input" required>
+                </div>
+
+                <div class="form__group">
+                    <label for="tipo_vehiculo">Tipo de vehículo *</label>
+                    <input type="text" id="tipo_vehiculo" class="input" placeholder="Camión, Furgón..." required>
+                </div>
+
+                <div class="form__row">
+                    <div class="form__group">
+                        <label for="marca">Marca *</label>
+                        <input type="text" id="marca" class="input" required>
+                    </div>
+                    <div class="form__group">
+                        <label for="modelo">Modelo *</label>
+                        <input type="text" id="modelo" class="input" required>
+                    </div>
+                </div>
+
+                <div class="form__row">
+                    <div class="form__group">
+                        <label for="capacidad_carga">Capacidad de carga (kg) *</label>
+                        <input type="number" id="capacidad_carga" class="input" min="1" step="0.01" required>
+                    </div>
+                    <div class="form__group">
+                        <label for="estado">Estado</label>
+                        <select id="estado" class="input">
+                            <option value="disponible">Disponible</option>
+                            <option value="en_ruta">En ruta</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form__actions">
+                    <button type="button" class="btn btn--ghost" id="btnCancelar">Cancelar</button>
+                    <button type="submit" class="btn btn--primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/vehiculos.js"></script>
+</body>
+</html>

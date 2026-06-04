@@ -40,6 +40,10 @@ body {
     background-position: center;
     color: #fff;
 }
+/* Variante de hero para la pantalla de conductores (degradado solido) */
+.hero--conductores {
+    background-image: linear-gradient(135deg, #4c1d95, #7c3aed 60%, #a855f7);
+}
 .hero__overlay {
     max-width: 1100px;
     margin: 0 auto;

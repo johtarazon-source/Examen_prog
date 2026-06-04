@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGITRANS · Gestión de Conductores</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- HERO -->
+    <header class="hero hero--conductores">
+        <div class="hero__overlay">
+            <div class="hero__brand">
+                <span class="hero__logo">L</span>
+                <span class="hero__name">LOGITRANS</span>
+            </div>
+            <h1 class="hero__title">Gestión de Conductores</h1>
+            <p class="hero__subtitle">Administración del personal de transporte</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- MENSAJES -->
+        <div id="mensaje" class="mensaje" hidden></div>
+
+        <!-- ESTADÍSTICAS -->
+        <section class="stats">
+            <div class="stat stat--total">
+                <div class="stat__num" id="statTotal">0</div>
+                <div class="stat__label">Total</div>
+            </div>
+            <div class="stat stat--ok">
+                <div class="stat__num" id="statDisponibles">0</div>
+                <div class="stat__label">Disponibles</div>
+            </div>
+            <div class="stat stat--ruta">
+                <div class="stat__num" id="statEnRuta">0</div>
+                <div class="stat__label">En ruta</div>
+            </div>
+            <div class="stat stat--mant">
+                <div class="stat__num" id="statInactivos">0</div>
+                <div class="stat__label">Inactivos</div>
+            </div>
+        </section>
+
+        <!-- BARRA DE ACCIONES -->
+        <section class="toolbar">
+            <div class="toolbar__filters">
+                <input type="text" id="filtroDocumento" class="input" placeholder="Buscar por documento...">
+                <input type="text" id="filtroLicencia" class="input" placeholder="Buscar por licencia...">
+                <select id="filtroEstado" class="input">
+                    <option value="">Todos los estados</option>
+                    <option value="disponible">Disponible</option>
+                    <option value="en_ruta">En ruta</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+                <button class="btn btn--ghost" id="btnBuscar">Buscar</button>
+            </div>
+            <button class="btn btn--primary" id="btnNuevo">+ Nuevo conductor</button>
+        </section>
+
+        <!-- TABLA -->
+        <section class="card-table">
+            <table class="tabla">
+                <thead>
+                    <tr>
+                        <th>Documento</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Licencia</th>
+                        <th>Categoría</th>
+                        <th>Vencimiento</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaBody">
+                    <tr><td colspan="8" class="tabla__empty">Cargando...</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- MODAL FORMULARIO -->
+    <div class="modal" id="modal" hidden>
+        <div class="modal__box">
+            <h2 class="modal__title" id="modalTitulo">Nuevo conductor</h2>
+            <form id="formConductor" class="form">
+                <input type="hidden" id="conductorId">
+
+                <div class="form__row">
+                    <div class="form__group">
+                        <label for="nombres">Nombres *</label>
+                        <input type="text" id="nombres" class="input" required>
+                    </div>
+                    <div class="form__group">
+                        <label for="apellidos">Apellidos *</label>
+                        <input type="text" id="apellidos" class="input" required>
+                    </div>
+                </div>
+
+                <div class="form__row">
+                    <div class="form__group">
+                        <label for="documento">Documento *</label>
+                        <input type="text" id="documento" class="input" required>
+                    </div>
+                    <div class="form__group">
+                        <label for="telefono">Teléfono *</label>
+                        <input type="text" id="telefono" class="input" required>
+                    </div>
+                </div>
+
+                <div class="form__group">
+                    <label for="correo">Correo electrónico *</label>
+                    <input type="email" id="correo" class="input" required>
+                </div>
+
+                <div class="form__row">
+                    <div class="form__group">
+                        <label for="numero_licencia">Número de licencia *</label>
+                        <input type="text" id="numero_licencia" class="input" required>
+                    </div>
+                    <div class="form__group">
+                        <label for="categoria_licencia">Categoría *</label>
+                        <input type="text" id="categoria_licencia" class="input" placeholder="C2, C3..." required>
+                    </div>
+                </div>
+
+                <div class="form__row">
+                    <div class="form__group">
+                        <label for="fecha_vencimiento_licencia">Vencimiento licencia *</label>
+                        <input type="date" id="fecha_vencimiento_licencia" class="input" required>
+                    </div>
+                    <div class="form__group">
+                        <label for="estado">Estado</label>
+                        <select id="estado" class="input">
+                            <option value="disponible">Disponible</option>
+                            <option value="en_ruta">En ruta</option>
+                            <option value="inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form__actions">
+                    <button type="button" class="btn btn--ghost" id="btnCancelar">Cancelar</button>
+                    <button type="submit" class="btn btn--primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/conductores.js"></script>
+</body>
+</html>

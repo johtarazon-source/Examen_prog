@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGITRANS · Iniciar sesión</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="login-body">
+
+    <div class="login-card">
+        <div class="login-card__brand">
+            <span class="hero__logo">L</span>
+            <span class="login-card__name">LOGITRANS</span>
+        </div>
+        <h1 class="login-card__title">Iniciar sesión</h1>
+        <p class="login-card__subtitle">Control de transporte de carga</p>
+
+        <div id="mensaje" class="mensaje" hidden></div>
+
+        <form id="formLogin" class="form">
+            <div class="form__group">
+                <label for="usuario">Usuario o correo</label>
+                <input type="text" id="usuario" class="input" placeholder="admin" required>
+            </div>
+            <div class="form__group">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" id="contrasena" class="input" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn--primary login-card__btn">Entrar</button>
+        </form>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

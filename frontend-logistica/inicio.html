@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGITRANS · Inicio</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- HERO -->
+    <header class="hero hero--conductores">
+        <div class="hero__overlay">
+            <div class="hero__brand">
+                <span class="hero__logo">L</span>
+                <span class="hero__name">LOGITRANS</span>
+            </div>
+            <h1 class="hero__title">Panel de control</h1>
+            <p class="hero__subtitle">Resumen general de la flota y el personal</p>
+
+            <!-- NAVEGACIÓN ENTRE MÓDULOS -->
+            <nav class="nav">
+                <a href="inicio.html" class="nav__link nav__link--activo">🏠 Inicio</a>
+                <a href="index.html" class="nav__link">🚛 Vehículos</a>
+                <a href="conductores.html" class="nav__link">👤 Conductores</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- MENSAJES -->
+        <div id="mensaje" class="mensaje" hidden></div>
+
+        <!-- RESUMEN: VEHÍCULOS -->
+        <h2 class="panel-titulo">🚛 Vehículos</h2>
+        <section class="stats">
+            <div class="stat stat--total">
+                <div class="stat__num" id="vehTotal">—</div>
+                <div class="stat__label">Total</div>
+            </div>
+            <div class="stat stat--ok">
+                <div class="stat__num" id="vehDisponibles">—</div>
+                <div class="stat__label">Disponibles</div>
+            </div>
+            <div class="stat stat--ruta">
+                <div class="stat__num" id="vehEnRuta">—</div>
+                <div class="stat__label">En ruta</div>
+            </div>
+            <div class="stat stat--mant">
+                <div class="stat__num" id="vehMantenimiento">—</div>
+                <div class="stat__label">Mantenimiento</div>
+            </div>
+        </section>
+
+        <!-- RESUMEN: CONDUCTORES -->
+        <h2 class="panel-titulo">👤 Conductores</h2>
+        <section class="stats">
+            <div class="stat stat--total">
+                <div class="stat__num" id="conTotal">—</div>
+                <div class="stat__label">Total</div>
+            </div>
+            <div class="stat stat--ok">
+                <div class="stat__num" id="conDisponibles">—</div>
+                <div class="stat__label">Disponibles</div>
+            </div>
+            <div class="stat stat--ruta">
+                <div class="stat__num" id="conEnRuta">—</div>
+                <div class="stat__label">En ruta</div>
+            </div>
+            <div class="stat stat--mant">
+                <div class="stat__num" id="conInactivos">—</div>
+                <div class="stat__label">Inactivos</div>
+            </div>
+        </section>
+
+        <!-- ACCESOS RÁPIDOS -->
+        <h2 class="panel-titulo">Accesos rápidos</h2>
+        <section class="accesos">
+            <a href="index.html" class="acceso">
+                <span class="acceso__icono">🚛</span>
+                <span class="acceso__texto">
+                    <strong>Gestionar vehículos</strong>
+                    <small>Registrar, editar y consultar la flota</small>
+                </span>
+            </a>
+            <a href="conductores.html" class="acceso">
+                <span class="acceso__icono">👤</span>
+                <span class="acceso__texto">
+                    <strong>Gestionar conductores</strong>
+                    <small>Administrar el personal de transporte</small>
+                </span>
+            </a>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/sesion.js"></script>
+    <script src="js/inicio.js"></script>
+</body>
+</html>

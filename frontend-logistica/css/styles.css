@@ -141,6 +141,39 @@ body {
 .stat--mant .stat__num { color: #ea580c; }
 .stat__label { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
+/* ---------- DASHBOARD (inicio) ---------- */
+.panel-titulo {
+    color: var(--purple-900);
+    font-size: 18px;
+    font-weight: 700;
+    margin: 30px 0 14px;
+}
+.panel-titulo:first-of-type { margin-top: 36px; }
+
+.accesos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+.acceso {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px 22px;
+    text-decoration: none;
+    color: var(--txt);
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--purple-500);
+    transition: transform .12s, box-shadow .15s;
+}
+.acceso:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(124,58,237,.22); }
+.acceso__icono { font-size: 30px; }
+.acceso__texto { display: flex; flex-direction: column; gap: 3px; }
+.acceso__texto strong { color: var(--purple-900); font-size: 15px; }
+.acceso__texto small { color: var(--muted); font-size: 13px; }
+
 /* ---------- TOOLBAR ---------- */
 .toolbar {
     display: flex;

@@ -7,7 +7,7 @@ const mensaje  = document.getElementById('mensaje');
 
 // Si ya existe una sesion iniciada, evitar mostrar el login de nuevo.
 if (localStorage.getItem('token')) {
-    window.location.replace('index.html');
+    window.location.replace('inicio.html');
 }
 
 function mostrarMensaje(texto, tipo = 'ok') {
@@ -45,7 +45,7 @@ async function iniciarSesion(e) {
         localStorage.setItem('usuario', JSON.stringify(json.data.usuario));
 
         mostrarMensaje('Sesión iniciada. Redirigiendo...', 'ok');
-        setTimeout(() => { window.location.href = 'index.html'; }, 800);
+        setTimeout(() => { window.location.href = 'inicio.html'; }, 800);
     } catch (err) {
         mostrarMensaje(`Error de conexión con el servidor (${API_AUTH})`, 'error');
     }

@@ -6,3 +6,4 @@
 const API_VEHICULOS = 'http://localhost:8000';
 const API_CONDUCTORES = 'http://localhost:8001';
 const API_AUTH = 'http://localhost:8002';
+const API_RUTAS = 'http://localhost:8003';

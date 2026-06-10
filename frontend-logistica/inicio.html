@@ -23,6 +23,7 @@
                 <a href="inicio.html" class="nav__link nav__link--activo">🏠 Inicio</a>
                 <a href="index.html" class="nav__link">🚛 Vehículos</a>
                 <a href="conductores.html" class="nav__link">👤 Conductores</a>
+                <a href="rutas.html" class="nav__link">🗺️ Rutas</a>
             </nav>
         </div>
     </header>
@@ -74,6 +75,27 @@
             </div>
         </section>
 
+        <!-- RESUMEN: RUTAS -->
+        <h2 class="panel-titulo">🗺️ Rutas</h2>
+        <section class="stats">
+            <div class="stat stat--total">
+                <div class="stat__num" id="rutTotal">—</div>
+                <div class="stat__label">Total rutas</div>
+            </div>
+            <div class="stat stat--ok">
+                <div class="stat__num" id="rutDistanciaMax">—</div>
+                <div class="stat__label">Distancia máx (km)</div>
+            </div>
+            <div class="stat stat--ruta">
+                <div class="stat__num" id="rutDistanciaMin">—</div>
+                <div class="stat__label">Distancia mín (km)</div>
+            </div>
+            <div class="stat stat--mant">
+                <div class="stat__num" id="rutCiudades">—</div>
+                <div class="stat__label">Ciudades</div>
+            </div>
+        </section>
+
         <!-- ACCESOS RÁPIDOS -->
         <h2 class="panel-titulo">Accesos rápidos</h2>
         <section class="accesos">
@@ -89,6 +111,13 @@
                 <span class="acceso__texto">
                     <strong>Gestionar conductores</strong>
                     <small>Administrar el personal de transporte</small>
+                </span>
+            </a>
+            <a href="rutas.html" class="acceso">
+                <span class="acceso__icono">🗺️</span>
+                <span class="acceso__texto">
+                    <strong>Gestionar rutas</strong>
+                    <small>Rutas y programación logística</small>
                 </span>
             </a>
         </section>

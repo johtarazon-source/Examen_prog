@@ -1,162 +1,202 @@
 /* =====================================================
-   LOGITRANS - Gestion de Vehiculos
-   Paleta morada / purpura
+   LOGITRANS - Sistema de Control de Transporte
+   Estetica oscura / elegante (inspirada en Tom & Mara)
    ===================================================== */
 
 :root {
-    --purple-900: #4c1d95;
-    --purple-700: #6d28d9;
-    --purple-600: #7c3aed;
-    --purple-500: #a855f7;
-    --purple-50:  #faf5ff;
-    --purple-100: #f5f3ff;
-    --purple-200: #ede9fe;
+    /* Paleta oscura */
+    --bg:        #0e0e10;   /* fondo general */
+    --bg-2:      #16161a;   /* paneles */
+    --bg-3:      #1f1f25;   /* filas / inputs */
+    --line:      #2a2a31;   /* bordes */
+    --nav:       #0a0a0c;   /* barra superior */
 
-    --green-bg: #dcfce7;  --green-tx: #166534;
-    --yellow-bg:#fef9c3;  --yellow-tx:#854d0e;
-    --orange-bg:#ffedd5;  --orange-tx:#9a3412;
-    --gray-bg:  #e5e7eb;  --gray-tx:  #374151;
+    --txt:       #f5f5f4;   /* texto principal */
+    --muted:     #9a9a9e;   /* texto secundario */
+    --gold:      #c8a96a;   /* acento dorado/elegante */
+    --gold-soft: #d9c39a;
 
-    --txt: #1f2937;
-    --muted: #6b7280;
-    --shadow: 0 4px 14px rgba(124, 58, 237, 0.12);
+    /* Estados (sobre fondo oscuro: fondo translucido + texto claro) */
+    --ok-bg:#14361f;     --ok-tx:#7ee2a8;
+    --warn-bg:#3a3115;   --warn-tx:#f2d479;
+    --orange-bg:#3a2615; --orange-tx:#f4b483;
+    --gray-bg:#2a2a31;   --gray-tx:#bdbdc2;
+    --red-bg:#3a1717;    --red-tx:#f3a3a3;
+
+    --shadow: 0 10px 30px rgba(0, 0, 0, .5);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: var(--purple-50);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    background: var(--bg);
     color: var(--txt);
-    padding-bottom: 40px;
+    padding-bottom: 50px;
 }
 
-/* ---------- HERO ---------- */
+/* =====================================================
+   NAVBAR SUPERIOR (horizontal, estilo referencia)
+   La estructura existente: header.hero > .hero__overlay > .nav
+   Reinterpretamos .hero como un hero full-width con la nav arriba.
+   ===================================================== */
+
 .hero {
+    position: relative;
     background-image:
-        linear-gradient(135deg, rgba(76,29,149,.88), rgba(124,58,237,.6)),
+        linear-gradient(rgba(10,10,12,.72), rgba(10,10,12,.82)),
         url('../assets/hero-camion.jpg');
     background-size: cover;
     background-position: center;
     color: #fff;
+    border-bottom: 1px solid var(--line);
 }
-/* Variante de hero para la pantalla de conductores (degradado solido) */
-.hero--conductores {
-    background-image: linear-gradient(135deg, #4c1d95, #7c3aed 60%, #a855f7);
-}
-/* Variante de hero para la pantalla de rutas (degradado solido) */
-.hero--rutas {
-    background-image: linear-gradient(135deg, #312e81, #6d28d9 55%, #a855f7);
-}
-/* Variante de hero para la pantalla de viajes (degradado solido) */
-.hero--viajes {
-    background-image: linear-gradient(135deg, #581c87, #7c3aed 55%, #c084fc);
-}
+/* Variantes por modulo: cambian la imagen/tinte del hero */
+.hero--conductores { background-image: linear-gradient(rgba(10,10,12,.78), rgba(10,10,12,.88)), url('../assets/hero-camion.jpg'); }
+.hero--rutas       { background-image: linear-gradient(rgba(10,10,12,.78), rgba(10,10,12,.88)), url('../assets/hero-camion.jpg'); }
+.hero--viajes      { background-image: linear-gradient(rgba(10,10,12,.78), rgba(10,10,12,.88)), url('../assets/hero-camion.jpg'); }
+
 .hero__overlay {
-    max-width: 1100px;
+    position: relative;
+    max-width: 1180px;
     margin: 0 auto;
-    padding: 48px 24px 56px;
+    padding: 0 24px 54px;
 }
-.hero__brand { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-.hero__logo {
-    width: 36px; height: 36px;
-    background: #fff; color: var(--purple-700);
-    border-radius: 9px;
-    display: grid; place-items: center;
-    font-weight: 800; font-size: 20px;
-}
-.hero__name { font-weight: 700; letter-spacing: 1px; font-size: 18px; }
-.hero__title { font-size: 38px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 12px rgba(0,0,0,.3); }
-.hero__subtitle { margin-top: 8px; opacity: .92; font-size: 15px; }
 
-/* ---------- BARRA DE USUARIO (sesion) ---------- */
-.userbar {
-    position: absolute;
-    top: 24px; right: 24px;
+/* Marca: emblema circular + nombre centrado (como la referencia) */
+.hero__brand {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
+    padding-top: 54px;
 }
-.hero__overlay { position: relative; }
-.userbar__info { color: #fff; font-weight: 600; font-size: 14px; }
-.userbar__rol { opacity: .8; font-weight: 500; text-transform: capitalize; }
-.userbar__logout { padding: 8px 14px; font-size: 13px; }
+.hero__logo {
+    width: 72px; height: 72px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 30px;
+    color: var(--gold);
+    background: rgba(0,0,0,.25);
+}
+.hero__name {
+    font-weight: 700;
+    letter-spacing: 6px;
+    font-size: 26px;
+    text-transform: uppercase;
+}
+.hero__title {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    margin-top: 22px;
+    text-shadow: 0 2px 18px rgba(0,0,0,.5);
+}
+.hero__subtitle {
+    text-align: center;
+    margin-top: 10px;
+    color: var(--gold-soft);
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
 
-/* ---------- NAVEGACION ENTRE MODULOS ---------- */
+/* ---------- NAVEGACION (barra horizontal superior) ---------- */
 .nav {
     display: flex;
-    gap: 10px;
-    margin-bottom: 24px;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(255,255,255,.12);
 }
 .nav__link {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 9px 18px;
-    border-radius: 10px;
+    padding: 8px 18px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 14px;
-    color: #fff;
-    background: rgba(255, 255, 255, .14);
-    border: 1px solid rgba(255, 255, 255, .25);
-    transition: background .15s;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.82);
+    border-bottom: 2px solid transparent;
+    transition: color .15s, border-color .15s;
 }
-.nav__link:hover { background: rgba(255, 255, 255, .26); }
+.nav__link:hover { color: var(--gold); }
 .nav__link--activo {
-    background: #fff;
-    color: var(--purple-700);
-    border-color: #fff;
+    color: var(--gold);
+    border-bottom-color: var(--gold);
 }
 
+/* ---------- BARRA DE USUARIO (sesion) ---------- */
+.userbar {
+    position: absolute;
+    top: 18px; right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 3;
+}
+.userbar__info { color: #fff; font-weight: 600; font-size: 13px; }
+.userbar__rol { color: var(--gold-soft); font-weight: 500; text-transform: capitalize; }
+.userbar__logout { padding: 7px 14px; font-size: 12px; }
+
 /* ---------- CONTAINER ---------- */
-.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
 /* ---------- MENSAJES ---------- */
 .mensaje {
-    margin-top: -24px;
+    margin-top: 24px;
     position: relative;
     padding: 14px 18px;
-    border-radius: 12px;
+    border-radius: 10px;
     font-weight: 600;
-    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
 }
-.mensaje--ok    { background: var(--green-bg);  color: var(--green-tx); }
-.mensaje--error { background: #fee2e2;          color: #991b1b; }
+.mensaje--ok    { background: var(--ok-bg);  color: var(--ok-tx);  border-color: #1f5132; }
+.mensaje--error { background: var(--red-bg); color: var(--red-tx); border-color: #5a2424; }
 
 /* ---------- STATS ---------- */
 .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-    margin-top: -28px;
-    position: relative;
+    margin-top: 28px;
 }
 .stat {
-    background: #fff;
-    border-radius: 14px;
-    padding: 20px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px;
     text-align: center;
-    box-shadow: var(--shadow);
-    border-top: 4px solid var(--purple-500);
+    border-top: 3px solid var(--gold);
 }
-.stat--ok   { border-top-color: #22c55e; }
-.stat--ruta { border-top-color: #eab308; }
-.stat--mant { border-top-color: #f97316; }
-.stat__num { font-size: 32px; font-weight: 800; color: var(--purple-700); }
-.stat--ok   .stat__num { color: #16a34a; }
-.stat--ruta .stat__num { color: #ca8a04; }
-.stat--mant .stat__num { color: #ea580c; }
-.stat__label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.stat--ok   { border-top-color: #2f9e5f; }
+.stat--ruta { border-top-color: #c8a052; }
+.stat--mant { border-top-color: #c87a3f; }
+.stat__num { font-size: 32px; font-weight: 800; color: var(--gold); }
+.stat--ok   .stat__num { color: #7ee2a8; }
+.stat--ruta .stat__num { color: #f2d479; }
+.stat--mant .stat__num { color: #f4b483; }
+.stat__label { font-size: 12px; color: var(--muted); margin-top: 4px; letter-spacing: .5px; text-transform: uppercase; }
 
 /* ---------- DASHBOARD (inicio) ---------- */
 .panel-titulo {
-    color: var(--purple-900);
-    font-size: 18px;
+    color: var(--txt);
+    font-size: 16px;
     font-weight: 700;
-    margin: 30px 0 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 34px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
 }
-.panel-titulo:first-of-type { margin-top: 36px; }
+.panel-titulo:first-of-type { margin-top: 40px; }
 
 .accesos {
     display: grid;
@@ -167,19 +207,19 @@ body {
     display: flex;
     align-items: center;
     gap: 16px;
-    background: #fff;
-    border-radius: 14px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
     padding: 20px 22px;
     text-decoration: none;
     color: var(--txt);
-    box-shadow: var(--shadow);
-    border-left: 4px solid var(--purple-500);
-    transition: transform .12s, box-shadow .15s;
+    border-left: 3px solid var(--gold);
+    transition: transform .12s, border-color .15s, background .15s;
 }
-.acceso:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(124,58,237,.22); }
+.acceso:hover { transform: translateY(-2px); background: var(--bg-3); border-left-color: var(--gold-soft); }
 .acceso__icono { font-size: 30px; }
 .acceso__texto { display: flex; flex-direction: column; gap: 3px; }
-.acceso__texto strong { color: var(--purple-900); font-size: 15px; }
+.acceso__texto strong { color: var(--txt); font-size: 15px; }
 .acceso__texto small { color: var(--muted); font-size: 13px; }
 
 /* ---------- TOOLBAR ---------- */
@@ -196,63 +236,69 @@ body {
 /* ---------- INPUTS / BOTONES ---------- */
 .input {
     padding: 10px 14px;
-    border: 1px solid var(--purple-200);
-    border-radius: 10px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
     font-size: 14px;
-    background: #fff;
+    background: var(--bg-3);
+    color: var(--txt);
     outline: none;
     transition: border-color .15s, box-shadow .15s;
 }
-.input:focus { border-color: var(--purple-500); box-shadow: 0 0 0 3px rgba(168,85,247,.18); }
+.input::placeholder { color: #6f6f75; }
+.input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,169,106,.18); }
+.input option, .input { color-scheme: dark; }
 
 .btn {
     padding: 10px 18px;
     border: none;
-    border-radius: 10px;
+    border-radius: 9px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13px;
+    letter-spacing: .5px;
     cursor: pointer;
-    transition: transform .1s, box-shadow .15s, background .15s;
+    transition: transform .1s, background .15s, color .15s;
 }
 .btn:active { transform: translateY(1px); }
 .btn--primary {
-    background: linear-gradient(135deg, var(--purple-600), var(--purple-500));
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(124,58,237,.35);
+    background: var(--gold);
+    color: #1a1a1a;
 }
-.btn--primary:hover { box-shadow: 0 6px 18px rgba(124,58,237,.45); }
+.btn--primary:hover { background: var(--gold-soft); }
 .btn--ghost {
-    background: #fff;
-    color: var(--purple-700);
-    border: 1px solid var(--purple-200);
+    background: transparent;
+    color: var(--txt);
+    border: 1px solid var(--line);
 }
-.btn--ghost:hover { background: var(--purple-100); }
+.btn--ghost:hover { background: var(--bg-3); border-color: var(--gold); }
 
 /* ---------- TABLA ---------- */
 .card-table {
     margin-top: 18px;
-    background: #fff;
-    border-radius: 14px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: var(--shadow);
 }
 .tabla { width: 100%; border-collapse: collapse; }
 .tabla thead th {
-    background: var(--purple-700);
-    color: #fff;
+    background: var(--nav);
+    color: var(--gold);
     text-align: left;
     padding: 14px 16px;
-    font-size: 12px;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: .6px;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--line);
 }
 .tabla tbody td {
     padding: 14px 16px;
-    border-bottom: 1px solid var(--purple-100);
+    border-bottom: 1px solid var(--line);
     font-size: 14px;
+    color: var(--txt);
 }
-.tabla tbody tr:hover { background: var(--purple-50); }
-.tabla__placa { font-weight: 700; color: var(--purple-900); }
+.tabla tbody tr:last-child td { border-bottom: none; }
+.tabla tbody tr:hover { background: var(--bg-3); }
+.tabla__placa { font-weight: 700; color: var(--gold); }
 .tabla__empty { text-align: center; color: var(--muted); padding: 30px; }
 
 /* ---------- BADGES ESTADO ---------- */
@@ -263,56 +309,57 @@ body {
     font-size: 12px;
     font-weight: 700;
 }
-.badge--disponible    { background: var(--green-bg);  color: var(--green-tx); }
-.badge--en_ruta       { background: var(--yellow-bg); color: var(--yellow-tx); }
+.badge--disponible    { background: var(--ok-bg);     color: var(--ok-tx); }
+.badge--en_ruta       { background: var(--warn-bg);   color: var(--warn-tx); }
 .badge--mantenimiento { background: var(--orange-bg); color: var(--orange-tx); }
 .badge--inactivo      { background: var(--gray-bg);   color: var(--gray-tx); }
 /* Estados de viaje */
-.badge--programado    { background: var(--purple-200); color: var(--purple-900); }
-.badge--en_transito   { background: var(--yellow-bg); color: var(--yellow-tx); }
+.badge--programado    { background: #1f2540;          color: #a9c0ff; }
+.badge--en_transito   { background: var(--warn-bg);   color: var(--warn-tx); }
 .badge--retrasado     { background: var(--orange-bg); color: var(--orange-tx); }
-.badge--finalizado    { background: var(--green-bg);  color: var(--green-tx); }
-.badge--cancelado     { background: #fee2e2;          color: #991b1b; }
+.badge--finalizado    { background: var(--ok-bg);     color: var(--ok-tx); }
+.badge--cancelado     { background: var(--red-bg);    color: var(--red-tx); }
 
 /* ---------- ACCIONES TABLA ---------- */
 .acciones { display: flex; gap: 8px; }
 .icon-btn {
-    border: none;
-    background: var(--purple-100);
-    color: var(--purple-700);
+    border: 1px solid var(--line);
+    background: var(--bg-3);
+    color: var(--gold);
     width: 34px; height: 34px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 15px;
-    transition: background .15s;
+    transition: background .15s, border-color .15s;
 }
-.icon-btn:hover { background: var(--purple-200); }
-.icon-btn--del { background: #fee2e2; color: #b91c1c; }
-.icon-btn--del:hover { background: #fecaca; }
+.icon-btn:hover { background: var(--nav); border-color: var(--gold); }
+.icon-btn--del { background: var(--red-bg); color: #f3a3a3; border-color: #5a2424; }
+.icon-btn--del:hover { background: #4a1d1d; }
 
 /* ---------- MODAL ---------- */
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(30, 10, 60, .55);
+    background: rgba(0, 0, 0, .7);
     display: grid;
     place-items: center;
     padding: 20px;
     z-index: 50;
 }
 .modal__box {
-    background: #fff;
-    border-radius: 16px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
     padding: 28px;
     width: 100%;
     max-width: 520px;
-    box-shadow: 0 20px 50px rgba(0,0,0,.3);
+    box-shadow: var(--shadow);
 }
-.modal__title { color: var(--purple-900); margin-bottom: 18px; font-size: 22px; }
+.modal__title { color: var(--gold); margin-bottom: 18px; font-size: 20px; letter-spacing: .5px; }
 
 /* ---------- FORM ---------- */
 .form__group { margin-bottom: 14px; display: flex; flex-direction: column; }
-.form__group label { font-size: 13px; font-weight: 600; color: var(--txt); margin-bottom: 6px; }
+.form__group label { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; letter-spacing: .5px; text-transform: uppercase; }
 .form__group .input { width: 100%; }
 .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .form__actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
@@ -320,7 +367,7 @@ body {
 /* ---------- TIMELINE (seguimiento de viaje) ---------- */
 .timeline { max-height: 360px; overflow-y: auto; margin-bottom: 8px; }
 .timeline__item {
-    border-left: 3px solid var(--purple-500);
+    border-left: 2px solid var(--gold);
     padding: 10px 0 10px 16px;
     margin-left: 6px;
     position: relative;
@@ -328,11 +375,11 @@ body {
 .timeline__item::before {
     content: '';
     position: absolute;
-    left: -8px; top: 14px;
-    width: 12px; height: 12px;
+    left: -7px; top: 14px;
+    width: 11px; height: 11px;
     border-radius: 50%;
-    background: var(--purple-600);
-    border: 2px solid #fff;
+    background: var(--gold);
+    border: 2px solid var(--bg-2);
 }
 .timeline__novedad { margin: 6px 0 2px; color: var(--txt); font-size: 14px; }
 .timeline__fecha { color: var(--muted); font-size: 12px; }
@@ -342,35 +389,44 @@ body {
     min-height: 100vh;
     display: grid;
     place-items: center;
-    background: linear-gradient(135deg, var(--purple-900), var(--purple-600) 60%, var(--purple-500));
+    background-image:
+        linear-gradient(rgba(10,10,12,.78), rgba(10,10,12,.9)),
+        url('../assets/hero-camion.jpg');
+    background-size: cover;
+    background-position: center;
     padding: 20px;
 }
 .login-card {
-    background: #fff;
-    border-radius: 18px;
-    padding: 36px 32px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 40px 34px;
     width: 100%;
     max-width: 400px;
-    box-shadow: 0 24px 60px rgba(30, 10, 60, .4);
+    box-shadow: var(--shadow);
 }
-.login-card__brand { display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 18px; }
-.login-card__name { font-weight: 700; letter-spacing: 1px; font-size: 18px; color: var(--purple-900); }
-.login-card__title { text-align: center; color: var(--purple-900); font-size: 26px; }
-.login-card__subtitle { text-align: center; color: var(--muted); font-size: 14px; margin: 4px 0 20px; }
+.login-card__brand { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 18px; }
+.login-card .hero__logo { width: 60px; height: 60px; font-size: 26px; }
+.login-card__name { font-weight: 700; letter-spacing: 4px; font-size: 18px; color: var(--txt); text-transform: uppercase; }
+.login-card__title { text-align: center; color: var(--gold); font-size: 24px; letter-spacing: 1px; }
+.login-card__subtitle { text-align: center; color: var(--muted); font-size: 12px; margin: 6px 0 22px; letter-spacing: 2px; text-transform: uppercase; }
 .login-card__btn { width: 100%; margin-top: 8px; }
 .login-body .mensaje { margin-top: 0; margin-bottom: 14px; }
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 720px) {
     .stats { grid-template-columns: repeat(2, 1fr); }
+    .accesos { grid-template-columns: 1fr; }
     .hero__title { font-size: 28px; }
+    .hero__name { letter-spacing: 3px; font-size: 20px; }
     .form__row { grid-template-columns: 1fr; }
     .tabla thead { display: none; }
-    .nav { flex-wrap: wrap; }
-    /* En movil la barra de usuario deja de flotar y se ubica bajo la marca */
+    .nav { gap: 4px; padding: 12px 0; }
+    .nav__link { padding: 6px 10px; letter-spacing: .5px; }
     .userbar {
         position: static;
-        margin: 14px 0 4px;
+        margin: 14px 0 0;
+        justify-content: center;
         flex-wrap: wrap;
     }
 }

@@ -48,6 +48,10 @@ body {
 .hero--rutas {
     background-image: linear-gradient(135deg, #312e81, #6d28d9 55%, #a855f7);
 }
+/* Variante de hero para la pantalla de viajes (degradado solido) */
+.hero--viajes {
+    background-image: linear-gradient(135deg, #581c87, #7c3aed 55%, #c084fc);
+}
 .hero__overlay {
     max-width: 1100px;
     margin: 0 auto;
@@ -263,6 +267,12 @@ body {
 .badge--en_ruta       { background: var(--yellow-bg); color: var(--yellow-tx); }
 .badge--mantenimiento { background: var(--orange-bg); color: var(--orange-tx); }
 .badge--inactivo      { background: var(--gray-bg);   color: var(--gray-tx); }
+/* Estados de viaje */
+.badge--programado    { background: var(--purple-200); color: var(--purple-900); }
+.badge--en_transito   { background: var(--yellow-bg); color: var(--yellow-tx); }
+.badge--retrasado     { background: var(--orange-bg); color: var(--orange-tx); }
+.badge--finalizado    { background: var(--green-bg);  color: var(--green-tx); }
+.badge--cancelado     { background: #fee2e2;          color: #991b1b; }
 
 /* ---------- ACCIONES TABLA ---------- */
 .acciones { display: flex; gap: 8px; }
@@ -306,6 +316,26 @@ body {
 .form__group .input { width: 100%; }
 .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .form__actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+/* ---------- TIMELINE (seguimiento de viaje) ---------- */
+.timeline { max-height: 360px; overflow-y: auto; margin-bottom: 8px; }
+.timeline__item {
+    border-left: 3px solid var(--purple-500);
+    padding: 10px 0 10px 16px;
+    margin-left: 6px;
+    position: relative;
+}
+.timeline__item::before {
+    content: '';
+    position: absolute;
+    left: -8px; top: 14px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--purple-600);
+    border: 2px solid #fff;
+}
+.timeline__novedad { margin: 6px 0 2px; color: var(--txt); font-size: 14px; }
+.timeline__fecha { color: var(--muted); font-size: 12px; }
 
 /* ---------- LOGIN ---------- */
 .login-body {

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGITRANS · Seguimiento de Viajes</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- HERO -->
+    <header class="hero hero--viajes">
+        <div class="hero__overlay">
+            <div class="hero__brand">
+                <span class="hero__logo">L</span>
+                <span class="hero__name">LOGITRANS</span>
+            </div>
+            <h1 class="hero__title">Seguimiento de Viajes</h1>
+            <p class="hero__subtitle">Control operativo y seguimiento de viajes</p>
+
+            <!-- NAVEGACIÓN ENTRE MÓDULOS -->
+            <nav class="nav">
+                <a href="inicio.html" class="nav__link">🏠 Inicio</a>
+                <a href="index.html" class="nav__link">🚛 Vehículos</a>
+                <a href="conductores.html" class="nav__link">👤 Conductores</a>
+                <a href="rutas.html" class="nav__link">🗺️ Rutas</a>
+                <a href="viajes.html" class="nav__link nav__link--activo">📦 Viajes</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- MENSAJES -->
+        <div id="mensaje" class="mensaje" hidden></div>
+
+        <!-- ESTADÍSTICAS -->
+        <section class="stats">
+            <div class="stat stat--total">
+                <div class="stat__num" id="statTotal">0</div>
+                <div class="stat__label">Total viajes</div>
+            </div>
+            <div class="stat stat--ruta">
+                <div class="stat__num" id="statTransito">0</div>
+                <div class="stat__label">En tránsito</div>
+            </div>
+            <div class="stat stat--mant">
+                <div class="stat__num" id="statRetrasados">0</div>
+                <div class="stat__label">Retrasados</div>
+            </div>
+            <div class="stat stat--ok">
+                <div class="stat__num" id="statFinalizados">0</div>
+                <div class="stat__label">Finalizados</div>
+            </div>
+        </section>
+
+        <!-- BARRA DE ACCIONES -->
+        <section class="toolbar">
+            <div class="toolbar__filters">
+                <select id="filtroEstado" class="input">
+                    <option value="">Todos los estados</option>
+                    <option value="programado">Programado</option>
+                    <option value="en_transito">En tránsito</option>
+                    <option value="retrasado">Retrasado</option>
+                    <option value="finalizado">Finalizado</option>
+                    <option value="cancelado">Cancelado</option>
+                </select>
+                <input type="date" id="filtroFecha" class="input">
+                <button class="btn btn--ghost" id="btnBuscar">Buscar</button>
+            </div>
+        </section>
+
+        <!-- TABLA -->
+        <section class="card-table">
+            <table class="tabla">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Conductor</th>
+                        <th>Vehículo</th>
+                        <th>Ruta</th>
+                        <th>Salida</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaBody">
+                    <tr><td colspan="7" class="tabla__empty">Cargando...</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- MODAL SEGUIMIENTO -->
+    <div class="modal" id="modalSeguimiento" hidden>
+        <div class="modal__box">
+            <h2 class="modal__title">Seguimiento del viaje <span id="segViajeId"></span></h2>
+            <div id="segHistorial" class="timeline"></div>
+            <div class="form__actions">
+                <button type="button" class="btn btn--ghost" id="btnCerrarSeg">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL NOVEDAD -->
+    <div class="modal" id="modalNovedad" hidden>
+        <div class="modal__box">
+            <h2 class="modal__title">Registrar novedad</h2>
+            <form id="formNovedad" class="form">
+                <input type="hidden" id="novedadViajeId">
+                <div class="form__group">
+                    <label for="novedadEstado">Estado del viaje</label>
+                    <select id="novedadEstado" class="input">
+                        <option value="en_transito">En tránsito</option>
+                        <option value="retrasado">Retrasado</option>
+                    </select>
+                </div>
+                <div class="form__group">
+                    <label for="novedadTexto">Novedad *</label>
+                    <input type="text" id="novedadTexto" class="input" placeholder="Retraso, incidente, observación..." required>
+                </div>
+                <div class="form__actions">
+                    <button type="button" class="btn btn--ghost" id="btnCancelarNovedad">Cancelar</button>
+                    <button type="submit" class="btn btn--primary">Guardar novedad</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/sesion.js"></script>
+    <script src="js/viajes.js"></script>
+</body>
+</html>

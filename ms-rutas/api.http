@@ -1,0 +1,45 @@
+### =====================================================
+### ms-rutas - Documentacion de endpoints
+### Base URL: http://localhost:8003
+### =====================================================
+
+@base = http://localhost:8003
+
+### Salud del microservicio
+GET {{base}}/
+
+### Listar todas las rutas
+GET {{base}}/rutas
+
+### Listar con filtro por ciudad (origen o destino)
+GET {{base}}/rutas?ciudad=Bogota
+
+### Obtener una ruta por id
+GET {{base}}/rutas/1
+
+### Crear una ruta
+POST {{base}}/rutas
+Content-Type: application/json
+
+{
+    "ciudad_origen": "Cali",
+    "ciudad_destino": "Bogota",
+    "distancia": 460,
+    "tiempo_estimado": "9 horas",
+    "observaciones": "Ruta sur-centro"
+}
+
+### Editar una ruta
+PUT {{base}}/rutas/1
+Content-Type: application/json
+
+{
+    "ciudad_origen": "Bogota",
+    "ciudad_destino": "Medellin",
+    "distancia": 415,
+    "tiempo_estimado": "7.5 horas",
+    "observaciones": "Ruta principal nacional"
+}
+
+### Eliminar una ruta
+DELETE {{base}}/rutas/3

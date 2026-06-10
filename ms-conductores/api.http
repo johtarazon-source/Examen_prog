@@ -1,0 +1,53 @@
+### =====================================================
+### ms-conductores - Documentacion de endpoints
+### Base URL: http://localhost:8001
+### =====================================================
+
+@base = http://localhost:8001
+
+### Salud del microservicio
+GET {{base}}/
+
+### Listar todos los conductores
+GET {{base}}/conductores
+
+### Listar con filtros (estado, documento, licencia)
+GET {{base}}/conductores?estado=disponible
+
+### Obtener un conductor por id
+GET {{base}}/conductores/1
+
+### Crear un conductor
+POST {{base}}/conductores
+Content-Type: application/json
+
+{
+    "nombres": "Luis",
+    "apellidos": "Gomez",
+    "documento": "1000555000",
+    "telefono": "3009998888",
+    "correo": "luis@logitrans.com",
+    "numero_licencia": "LIC-1003",
+    "categoria_licencia": "C2",
+    "fecha_vencimiento_licencia": "2028-01-20",
+    "estado": "disponible"
+}
+
+### Editar un conductor
+PUT {{base}}/conductores/1
+Content-Type: application/json
+
+{
+    "nombres": "Carlos",
+    "apellidos": "Ramirez",
+    "documento": "1000123456",
+    "telefono": "3001234567",
+    "correo": "carlos@logitrans.com",
+    "numero_licencia": "LIC-1001",
+    "categoria_licencia": "C2",
+    "fecha_vencimiento_licencia": "2027-05-10",
+    "estado": "en_ruta"
+}
+
+### Eliminar un conductor
+DELETE {{base}}/conductores/3

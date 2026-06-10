@@ -1,0 +1,27 @@
+### =====================================================
+### ms-auth - Documentacion de endpoints
+### Base URL: http://localhost:8002
+### =====================================================
+
+@base = http://localhost:8002
+@token = PEGAR_AQUI_EL_TOKEN_DEL_LOGIN
+
+### Salud del microservicio
+GET {{base}}/
+
+### Iniciar sesion (por usuario o por correo)
+POST {{base}}/login
+Content-Type: application/json
+
+{
+    "usuario": "admin",
+    "contrasena": "admin123"
+}
+
+### Validar sesion (token en header Authorization)
+GET {{base}}/validar
+Authorization: Bearer {{token}}
+
+### Cerrar sesion
+POST {{base}}/logout
+Authorization: Bearer {{token}}

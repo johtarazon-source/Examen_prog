@@ -68,6 +68,7 @@
                 <input type="date" id="filtroFecha" class="input">
                 <button class="btn btn--ghost" id="btnBuscar">Buscar</button>
             </div>
+            <button class="btn btn--primary" id="btnProgramar">+ Programar viaje</button>
         </section>
 
         <!-- TABLA -->
@@ -90,6 +91,66 @@
             </table>
         </section>
     </main>
+
+    <!-- MODAL PROGRAMAR / REPROGRAMAR VIAJE -->
+    <div class="modal" id="modalProgramar" hidden>
+        <div class="modal__box">
+            <h2 class="modal__title" id="progTitulo">Programar viaje</h2>
+            <form id="formProgramar" class="form">
+                <input type="hidden" id="progViajeId">
+
+                <div class="form__row">
+                    <div class="form__group">
+                        <label for="progConductor">Conductor *</label>
+                        <select id="progConductor" class="input" required>
+                            <option value="">Cargando...</option>
+                        </select>
+                    </div>
+                    <div class="form__group">
+                        <label for="progVehiculo">Vehículo *</label>
+                        <select id="progVehiculo" class="input" required>
+                            <option value="">Cargando...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form__group">
+                    <label for="progRuta">Ruta *</label>
+                    <select id="progRuta" class="input" required>
+                        <option value="">Cargando...</option>
+                    </select>
+                </div>
+
+                <div class="form__row">
+                    <div class="form__group">
+                        <label for="progFechaSalida">Fecha de salida *</label>
+                        <input type="date" id="progFechaSalida" class="input" required>
+                    </div>
+                    <div class="form__group">
+                        <label for="progHoraSalida">Hora de salida *</label>
+                        <input type="time" id="progHoraSalida" class="input" required>
+                    </div>
+                </div>
+
+                <div class="form__group">
+                    <label for="progFechaLlegada">Fecha estimada de llegada *</label>
+                    <input type="date" id="progFechaLlegada" class="input" required>
+                </div>
+
+                <div class="form__group">
+                    <label for="progObservaciones">Observaciones</label>
+                    <input type="text" id="progObservaciones" class="input" placeholder="Opcional">
+                </div>
+
+                <div id="progMsg" class="mensaje" hidden></div>
+
+                <div class="form__actions">
+                    <button type="button" class="btn btn--ghost" id="btnCancelarProg">Cancelar</button>
+                    <button type="submit" class="btn btn--primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- MODAL SEGUIMIENTO -->
     <div class="modal" id="modalSeguimiento" hidden>

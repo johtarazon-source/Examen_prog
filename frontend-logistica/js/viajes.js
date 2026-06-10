@@ -58,6 +58,8 @@ function botonesAccion(v) {
     if (v.estado === 'programado') {
         return `
             <button class="icon-btn" title="Iniciar viaje" data-accion="iniciar" data-id="${id}">▶️</button>
+            <button class="icon-btn" title="Reprogramar" data-accion="reprogramar" data-id="${id}">✏️</button>
+            <button class="icon-btn icon-btn--del" title="Cancelar viaje" data-accion="cancelar" data-id="${id}">✖️</button>
             ${ver}`;
     }
     if (v.estado === 'en_transito' || v.estado === 'retrasado') {
@@ -194,6 +196,163 @@ async function guardarNovedad(e) {
     }
 }
 
+// ---------- Modal: programar / reprogramar viaje ----------
+
+const modalProg   = document.getElementById('modalProgramar');
+const formProg    = document.getElementById('formProgramar');
+const progTitulo  = document.getElementById('progTitulo');
+const progViajeId = document.getElementById('progViajeId');
+const progMsg     = document.getElementById('progMsg');
+const selConductor = document.getElementById('progConductor');
+const selVehiculo  = document.getElementById('progVehiculo');
+const selRuta      = document.getElementById('progRuta');
+
+// Llena un <select> con opciones. items: [{value, label}]
+function llenarSelect(sel, items, placeholder) {
+    sel.innerHTML = `<option value="">${placeholder}</option>` +
+        items.map(it => `<option value="${esc(it.value)}">${esc(it.label)}</option>`).join('');
+}
+
+// Carga conductores y vehiculos DISPONIBLES + todas las rutas, desde
+// sus respectivos microservicios. La disponibilidad se valida aqui
+// (frontend), respetando "sin comunicacion entre microservicios".
+async function cargarOpciones() {
+    // Conductores disponibles
+    try {
+        const r = await fetch(`${API_CONDUCTORES}/conductores?estado=disponible`);
+        const j = await r.json();
+        const items = (j.data || []).map(c => ({
+            value: c.id,
+            label: `${c.nombres} ${c.apellidos} (${c.numero_licencia})`,
+        }));
+        llenarSelect(selConductor, items, items.length ? 'Seleccione conductor' : 'No hay conductores disponibles');
+    } catch (e) {
+        llenarSelect(selConductor, [], 'Error al cargar conductores');
+    }
+
+    // Vehiculos disponibles
+    try {
+        const r = await fetch(`${API_VEHICULOS}/vehiculos?estado=disponible`);
+        const j = await r.json();
+        const items = (j.data || []).map(v => ({
+            value: v.id,
+            label: `${v.placa} - ${v.marca} ${v.tipo_vehiculo}`,
+        }));
+        llenarSelect(selVehiculo, items, items.length ? 'Seleccione vehículo' : 'No hay vehículos disponibles');
+    } catch (e) {
+        llenarSelect(selVehiculo, [], 'Error al cargar vehículos');
+    }
+
+    // Rutas (todas)
+    try {
+        const r = await fetch(`${API_RUTAS}/rutas`);
+        const j = await r.json();
+        const items = (j.data || []).map(rt => ({
+            value: rt.id,
+            label: `${rt.ciudad_origen} → ${rt.ciudad_destino} (${rt.distancia} km)`,
+        }));
+        llenarSelect(selRuta, items, items.length ? 'Seleccione ruta' : 'No hay rutas registradas');
+    } catch (e) {
+        llenarSelect(selRuta, [], 'Error al cargar rutas');
+    }
+}
+
+async function abrirProgramar() {
+    formProg.reset();
+    progViajeId.value = '';
+    progTitulo.textContent = 'Programar viaje';
+    progMsg.hidden = true;
+    modalProg.hidden = false;
+    await cargarOpciones();
+}
+
+async function abrirReprogramar(v) {
+    formProg.reset();
+    progTitulo.textContent = `Reprogramar viaje #${v.id}`;
+    progMsg.hidden = true;
+    modalProg.hidden = false;
+    await cargarOpciones();
+
+    // Preseleccionar los valores actuales (puede que el conductor/vehiculo
+    // actual ya no este "disponible"; lo agregamos como opcion para no perderlo)
+    progViajeId.value = v.id;
+    asegurarOpcion(selConductor, v.conductor_id);
+    asegurarOpcion(selVehiculo, v.vehiculo_id);
+    asegurarOpcion(selRuta, v.ruta_id);
+    selConductor.value = v.conductor_id;
+    selVehiculo.value  = v.vehiculo_id;
+    selRuta.value      = v.ruta_id;
+    document.getElementById('progFechaSalida').value  = v.fecha_salida;
+    document.getElementById('progHoraSalida').value   = v.hora_salida;
+    document.getElementById('progFechaLlegada').value = v.fecha_estimada_llegada;
+    document.getElementById('progObservaciones').value = v.observaciones || '';
+}
+
+// Si el valor no esta en el select, lo agrega para no perder la seleccion actual.
+function asegurarOpcion(sel, valor) {
+    if (![...sel.options].some(o => o.value == valor)) {
+        const opt = document.createElement('option');
+        opt.value = valor;
+        opt.textContent = `#${valor} (actual)`;
+        sel.appendChild(opt);
+    }
+}
+
+async function guardarProgramacion(e) {
+    e.preventDefault();
+    const id = progViajeId.value;
+    const datos = {
+        conductor_id:           selConductor.value,
+        vehiculo_id:            selVehiculo.value,
+        ruta_id:                selRuta.value,
+        fecha_salida:           document.getElementById('progFechaSalida').value,
+        hora_salida:            document.getElementById('progHoraSalida').value,
+        fecha_estimada_llegada: document.getElementById('progFechaLlegada').value,
+        observaciones:          document.getElementById('progObservaciones').value.trim(),
+    };
+
+    // Validacion basica en cliente
+    if (!datos.conductor_id || !datos.vehiculo_id || !datos.ruta_id) {
+        progMsg.textContent = 'Selecciona conductor, vehículo y ruta';
+        progMsg.className = 'mensaje mensaje--error';
+        progMsg.hidden = false;
+        return;
+    }
+
+    const editando = !!id;
+    const url    = editando ? `${BASE}/${id}` : BASE;
+    const metodo = editando ? 'PUT' : 'POST';
+
+    try {
+        const res = await fetch(url, {
+            method: metodo,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(datos),
+        });
+        const json = await res.json();
+
+        if (!json.success) {
+            progMsg.textContent = json.message || 'No se pudo guardar';
+            progMsg.className = 'mensaje mensaje--error';
+            progMsg.hidden = false;
+            return;
+        }
+
+        modalProg.hidden = true;
+        mostrarMensaje(json.message, 'ok');
+        cargarViajes();
+    } catch (err) {
+        progMsg.textContent = 'Error de conexión con el servidor';
+        progMsg.className = 'mensaje mensaje--error';
+        progMsg.hidden = false;
+    }
+}
+
+function cancelarViaje(id) {
+    if (!confirm(`¿Cancelar el viaje #${id}?`)) return;
+    accionViaje(id, 'cancelar', 'PUT', 'Viaje cancelado');
+}
+
 // ---------- Modal: ver seguimiento ----------
 
 async function verSeguimiento(id) {
@@ -231,6 +390,10 @@ async function verSeguimiento(id) {
 
 document.getElementById('btnBuscar').addEventListener('click', cargarViajes);
 filtroEstado.addEventListener('change', cargarViajes);
+document.getElementById('btnProgramar').addEventListener('click', abrirProgramar);
+document.getElementById('btnCancelarProg').addEventListener('click', () => { modalProg.hidden = true; });
+formProg.addEventListener('submit', guardarProgramacion);
+modalProg.addEventListener('click', e => { if (e.target === modalProg) modalProg.hidden = true; });
 document.getElementById('btnCerrarSeg').addEventListener('click', () => { modalSeg.hidden = true; });
 document.getElementById('btnCancelarNovedad').addEventListener('click', () => { modalNovedad.hidden = true; });
 formNovedad.addEventListener('submit', guardarNovedad);
@@ -248,6 +411,12 @@ tablaBody.addEventListener('click', e => {
         case 'finalizar':   finalizarViaje(id); break;
         case 'novedad':     abrirNovedad(id); break;
         case 'seguimiento': verSeguimiento(id); break;
+        case 'cancelar':    cancelarViaje(id); break;
+        case 'reprogramar': {
+            const viaje = viajesCache.find(v => Number(v.id) === id);
+            if (viaje) abrirReprogramar(viaje);
+            break;
+        }
     }
 });
 

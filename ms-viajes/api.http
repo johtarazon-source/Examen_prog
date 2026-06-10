@@ -1,0 +1,81 @@
+### =====================================================
+### ms-viajes - Documentacion de endpoints
+### Base URL: http://localhost:8004
+### Incluye programacion de viajes (8.4.2) y seguimiento (8.5.1)
+### =====================================================
+
+@base = http://localhost:8004
+
+### Salud del microservicio
+GET {{base}}/
+
+### --- PROGRAMACION DE VIAJES (8.4.2) ---
+
+### Listar viajes. Filtros: estado, conductor, vehiculo, fecha
+GET {{base}}/viajes
+
+### Listar por estado
+GET {{base}}/viajes?estado=programado
+
+### Obtener una programacion por id
+GET {{base}}/viajes/1
+
+### Programar un viaje (asignar conductor, vehiculo, ruta y fechas)
+POST {{base}}/viajes
+Content-Type: application/json
+
+{
+    "conductor_id": 3,
+    "vehiculo_id": 3,
+    "ruta_id": 1,
+    "fecha_salida": "2026-07-01",
+    "hora_salida": "08:00:00",
+    "fecha_estimada_llegada": "2026-07-01",
+    "observaciones": "Carga general"
+}
+
+### Reprogramar un viaje (solo si esta 'programado')
+PUT {{base}}/viajes/1
+Content-Type: application/json
+
+{
+    "conductor_id": 1,
+    "vehiculo_id": 1,
+    "ruta_id": 2,
+    "fecha_salida": "2026-07-03",
+    "hora_salida": "09:00:00",
+    "fecha_estimada_llegada": "2026-07-03",
+    "observaciones": "Reprogramado"
+}
+
+### Cancelar una programacion de viaje
+PUT {{base}}/viajes/1/cancelar
+
+### --- SEGUIMIENTO OPERATIVO (8.5.1) ---
+
+### Iniciar un viaje programado
+PUT {{base}}/viajes/1/iniciar
+
+### Actualizar el estado del viaje
+PUT {{base}}/viajes/1/estado
+Content-Type: application/json
+
+{
+    "estado": "retrasado",
+    "novedad": "Retraso por trafico"
+}
+
+### Registrar una novedad (retraso, incidente, observacion)
+POST {{base}}/viajes/1/novedad
+Content-Type: application/json
+
+{
+    "novedad": "Incidente menor en carretera, sin afectacion de carga",
+    "estado": "en_transito"
+}
+
+### Finalizar un viaje
+PUT {{base}}/viajes/1/finalizar
+
+### Consultar el seguimiento (historial de novedades y estados)
+GET {{base}}/viajes/1/seguimiento

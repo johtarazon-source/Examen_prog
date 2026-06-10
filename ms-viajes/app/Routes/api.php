@@ -19,7 +19,14 @@ return function (App $app) {
 
     // Gestion y seguimiento de viajes
     $app->group('/viajes', function (RouteCollectorProxy $group) {
+        // Programacion de viajes (8.4.2)
         $group->get('',                  [ViajesController::class, 'index']);
+        $group->post('',                 [ViajesController::class, 'store']);
+        $group->get('/{id}',             [ViajesController::class, 'show']);
+        $group->put('/{id}',             [ViajesController::class, 'update']);
+        $group->put('/{id}/cancelar',    [ViajesController::class, 'cancelar']);
+
+        // Seguimiento operativo (8.5.1)
         $group->get('/{id}/seguimiento', [ViajesController::class, 'seguimiento']);
         $group->put('/{id}/iniciar',     [ViajesController::class, 'iniciar']);
         $group->put('/{id}/estado',      [ViajesController::class, 'actualizarEstado']);

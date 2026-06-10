@@ -1,0 +1,47 @@
+### =====================================================
+### ms-vehiculos - Documentacion de endpoints
+### Base URL: http://localhost:8000
+### =====================================================
+
+@base = http://localhost:8000
+
+### Salud del microservicio
+GET {{base}}/
+
+### Listar todos los vehiculos
+GET {{base}}/vehiculos
+
+### Listar con filtros (estado, tipo, placa)
+GET {{base}}/vehiculos?estado=disponible
+
+### Obtener un vehiculo por id
+GET {{base}}/vehiculos/1
+
+### Crear un vehiculo
+POST {{base}}/vehiculos
+Content-Type: application/json
+
+{
+    "placa": "DEF456",
+    "tipo_vehiculo": "Camion",
+    "capacidad_carga": 8000,
+    "modelo": "2023",
+    "marca": "Volvo",
+    "estado": "disponible"
+}
+
+### Editar un vehiculo
+PUT {{base}}/vehiculos/1
+Content-Type: application/json
+
+{
+    "placa": "ABC123",
+    "tipo_vehiculo": "Camion",
+    "capacidad_carga": 5500,
+    "modelo": "2022",
+    "marca": "Chevrolet",
+    "estado": "mantenimiento"
+}
+
+### Eliminar un vehiculo
+DELETE {{base}}/vehiculos/3

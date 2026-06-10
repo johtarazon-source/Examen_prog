@@ -5,6 +5,11 @@
 const form     = document.getElementById('formLogin');
 const mensaje  = document.getElementById('mensaje');
 
+// Si ya existe una sesion iniciada, evitar mostrar el login de nuevo.
+if (localStorage.getItem('token')) {
+    window.location.replace('index.html');
+}
+
 function mostrarMensaje(texto, tipo = 'ok') {
     mensaje.textContent = texto;
     mensaje.className = `mensaje mensaje--${tipo}`;

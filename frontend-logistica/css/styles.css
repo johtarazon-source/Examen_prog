@@ -61,6 +61,19 @@ body {
 .hero__title { font-size: 38px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 12px rgba(0,0,0,.3); }
 .hero__subtitle { margin-top: 8px; opacity: .92; font-size: 15px; }
 
+/* ---------- BARRA DE USUARIO (sesion) ---------- */
+.userbar {
+    position: absolute;
+    top: 24px; right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.hero__overlay { position: relative; }
+.userbar__info { color: #fff; font-weight: 600; font-size: 14px; }
+.userbar__rol { opacity: .8; font-weight: 500; text-transform: capitalize; }
+.userbar__logout { padding: 8px 14px; font-size: 13px; }
+
 /* ---------- CONTAINER ---------- */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 

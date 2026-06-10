@@ -74,6 +74,33 @@ body {
 .userbar__rol { opacity: .8; font-weight: 500; text-transform: capitalize; }
 .userbar__logout { padding: 8px 14px; font-size: 13px; }
 
+/* ---------- NAVEGACION ENTRE MODULOS ---------- */
+.nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+.nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .25);
+    transition: background .15s;
+}
+.nav__link:hover { background: rgba(255, 255, 255, .26); }
+.nav__link--activo {
+    background: #fff;
+    color: var(--purple-700);
+    border-color: #fff;
+}
+
 /* ---------- CONTAINER ---------- */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
@@ -272,4 +299,11 @@ body {
     .hero__title { font-size: 28px; }
     .form__row { grid-template-columns: 1fr; }
     .tabla thead { display: none; }
+    .nav { flex-wrap: wrap; }
+    /* En movil la barra de usuario deja de flotar y se ubica bajo la marca */
+    .userbar {
+        position: static;
+        margin: 14px 0 4px;
+        flex-wrap: wrap;
+    }
 }

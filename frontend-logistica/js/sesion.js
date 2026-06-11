@@ -120,10 +120,14 @@ function pintarBarraUsuario(usuario) {
     barra.appendChild(info);
     barra.appendChild(btn);
 
-    // Se ancla en la esquina superior derecha del hero (position:absolute via
-    // CSS), por encima de la fila del nav.
-    const overlay = document.querySelector('.hero__overlay') || brand.parentElement;
-    overlay.appendChild(barra);
+    // Se coloca dentro de la barra superior (.nav); con margin-left:auto en el
+    // CSS se ubica al extremo derecho de la franja.
+    const nav = document.querySelector('.nav');
+    if (nav) {
+        nav.appendChild(barra);
+    } else {
+        brand.parentElement.insertBefore(barra, brand.nextSibling);
+    }
 }
 
 })();

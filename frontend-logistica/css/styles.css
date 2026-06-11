@@ -81,7 +81,8 @@ body {
     width: 100%;
     max-width: 1180px;
     margin: 0 auto;
-    padding: 0 24px 54px;
+    /* padding-top deja espacio para la barra superior translucida (.nav) */
+    padding: 110px 24px 54px;
 }
 
 /* Marca: emblema circular + nombre centrado (como la referencia) */
@@ -90,7 +91,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    padding-top: 54px;
+    padding-top: 24px;
 }
 .hero__logo {
     width: 72px; height: 72px;
@@ -125,15 +126,24 @@ body {
     text-transform: uppercase;
 }
 
-/* ---------- NAVEGACION (barra horizontal superior) ---------- */
+/* ---------- BARRA SUPERIOR (navegacion translucida full-width) ---------- */
+/* El .nav se ancla arriba del todo, de borde a borde del hero. Los margenes
+   negativos compensan el padding del .hero__overlay para que ocupe el ancho
+   completo; el padding interno re-centra el contenido en la columna de 1180px. */
 .nav {
+    position: absolute;
+    top: 0;
+    left: -24px;
+    right: -24px;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     flex-wrap: wrap;
-    /* padding-top reserva la franja superior donde se ancla la userbar */
-    padding: 70px 0 18px;
+    padding: 14px 24px;
+    background: rgba(10, 10, 12, .55);
+    backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(255,255,255,.12);
 }
 .nav__link {
@@ -157,22 +167,17 @@ body {
 }
 
 /* ---------- BARRA DE USUARIO (sesion) ---------- */
-/* sesion.js ancla la userbar en el .hero__overlay. Se posiciona arriba a la
-   derecha (pildora), en la franja que el nav reserva con su padding-top, de
-   modo que queda por encima de los enlaces sin solaparse. */
+/* sesion.js inserta la userbar dentro de la barra superior (.nav). Con
+   margin-left:auto se ubica al extremo derecho de la franja, como pildora. */
 .userbar {
-    position: absolute;
-    top: 16px; right: 24px;
+    margin-left: auto;
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    padding: 7px 10px 7px 16px;
-    background: rgba(10, 10, 12, .55);
-    border: 1px solid rgba(255, 255, 255, .12);
+    padding: 6px 8px 6px 14px;
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .14);
     border-radius: 999px;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
-    z-index: 5;
 }
 .userbar__info { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 600; font-size: 13px; }
 .userbar__ico { display: inline-flex; color: var(--gold); }
@@ -675,14 +680,15 @@ body {
     .hero__name { letter-spacing: 3px; font-size: 20px; }
     .form__row { grid-template-columns: 1fr; }
     .tabla thead { display: none; }
-    .nav { gap: 4px; padding: 58px 0 12px; }
+    .nav { gap: 4px; padding: 12px 16px; }
     .nav__link { padding: 6px 10px; letter-spacing: .5px; }
     .userbar {
-        top: 12px; right: 50%;
-        transform: translateX(50%);
-        flex-wrap: wrap;
+        margin: 6px 0 0;
+        flex-basis: 100%;
         justify-content: center;
     }
+    /* en movil la barra puede ocupar 2 lineas: dejar mas espacio arriba */
+    .hero__overlay { padding-top: 130px; }
 }
 
 /* =====================================================

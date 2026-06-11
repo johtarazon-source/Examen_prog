@@ -648,3 +648,42 @@ body {
         flex-wrap: wrap;
     }
 }
+
+/* =====================================================
+   PANEL DE CONTROL (dashboard de inicio)
+   Agrupa cada servicio con su encabezado y sus tarjetas.
+   ===================================================== */
+.panel {
+    margin-top: 32px;
+}
+.panel:first-of-type {
+    margin-top: 24px;
+}
+.panel__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+}
+.panel__title {
+    margin: 0;
+    color: var(--txt);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+.panel__link {
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color .2s ease;
+}
+.panel__link:hover {
+    color: var(--gold-soft);
+}

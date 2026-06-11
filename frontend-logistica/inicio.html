@@ -33,9 +33,88 @@
 
         <!-- MENSAJES -->
         <div id="mensaje" class="mensaje" hidden></div>
+
+        <!-- RESUMEN: VEHÍCULOS -->
+        <section class="panel">
+            <div class="panel__head">
+                <h2 class="panel__title">Vehículos</h2>
+                <a href="index.html" class="panel__link">Ver módulo →</a>
+            </div>
+            <div class="stats">
+                <div class="stat stat--total">
+                    <div class="stat__num" id="vehTotal">0</div>
+                    <div class="stat__label">Total</div>
+                </div>
+                <div class="stat stat--ok">
+                    <div class="stat__num" id="vehDisponibles">0</div>
+                    <div class="stat__label">Disponibles</div>
+                </div>
+                <div class="stat stat--ruta">
+                    <div class="stat__num" id="vehEnRuta">0</div>
+                    <div class="stat__label">En ruta</div>
+                </div>
+                <div class="stat stat--mant">
+                    <div class="stat__num" id="vehMantenimiento">0</div>
+                    <div class="stat__label">Mantenimiento</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESUMEN: CONDUCTORES -->
+        <section class="panel">
+            <div class="panel__head">
+                <h2 class="panel__title">Conductores</h2>
+                <a href="conductores.html" class="panel__link">Ver módulo →</a>
+            </div>
+            <div class="stats">
+                <div class="stat stat--total">
+                    <div class="stat__num" id="conTotal">0</div>
+                    <div class="stat__label">Total</div>
+                </div>
+                <div class="stat stat--ok">
+                    <div class="stat__num" id="conDisponibles">0</div>
+                    <div class="stat__label">Disponibles</div>
+                </div>
+                <div class="stat stat--ruta">
+                    <div class="stat__num" id="conEnRuta">0</div>
+                    <div class="stat__label">En ruta</div>
+                </div>
+                <div class="stat stat--mant">
+                    <div class="stat__num" id="conInactivos">0</div>
+                    <div class="stat__label">Inactivos</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESUMEN: RUTAS -->
+        <section class="panel">
+            <div class="panel__head">
+                <h2 class="panel__title">Rutas</h2>
+                <a href="rutas.html" class="panel__link">Ver módulo →</a>
+            </div>
+            <div class="stats">
+                <div class="stat stat--total">
+                    <div class="stat__num" id="rutTotal">0</div>
+                    <div class="stat__label">Total</div>
+                </div>
+                <div class="stat stat--ruta">
+                    <div class="stat__num" id="rutDistanciaMax">0</div>
+                    <div class="stat__label">Distancia máx. (km)</div>
+                </div>
+                <div class="stat stat--ok">
+                    <div class="stat__num" id="rutDistanciaMin">0</div>
+                    <div class="stat__label">Distancia mín. (km)</div>
+                </div>
+                <div class="stat stat--mant">
+                    <div class="stat__num" id="rutCiudades">0</div>
+                    <div class="stat__label">Ciudades</div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script src="js/api.js"></script>
     <script src="js/sesion.js"></script>
+    <script src="js/inicio.js"></script>
 </body>
 </html>

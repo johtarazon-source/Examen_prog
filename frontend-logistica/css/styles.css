@@ -85,6 +85,30 @@ body {
     padding: 110px 24px 54px;
 }
 
+/* Hero compacto: en las paginas de modulos el hero es una franja pequena
+   para que las estadisticas y la tabla se vean de inmediato (sin scroll). */
+.hero--compacto {
+    min-height: auto;
+}
+.hero--compacto .hero__overlay {
+    padding: 96px 24px 28px;
+}
+.hero--compacto .hero__logo {
+    width: 54px; height: 54px;
+    font-size: 22px;
+}
+.hero--compacto .hero__brand {
+    padding-top: 6px;
+}
+.hero--compacto .hero__title {
+    font-size: 26px;
+    margin-top: 12px;
+}
+.hero--compacto .hero__subtitle {
+    margin-top: 6px;
+    font-size: 12px;
+}
+
 /* Marca: emblema circular + nombre centrado (como la referencia) */
 .hero__brand {
     display: flex;
@@ -127,21 +151,20 @@ body {
 }
 
 /* ---------- BARRA SUPERIOR (navegacion translucida full-width) ---------- */
-/* El .nav se ancla arriba del todo, de borde a borde del hero. Los margenes
-   negativos compensan el padding del .hero__overlay para que ocupe el ancho
-   completo; el padding interno re-centra el contenido en la columna de 1180px. */
+/* El .nav se fija al tope del viewport, de borde a borde y siempre visible.
+   El contenido interno se centra en una columna de 1180px. */
 .nav {
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: -24px;
-    right: -24px;
-    z-index: 10;
+    left: 0;
+    right: 0;
+    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     flex-wrap: wrap;
-    padding: 14px 24px;
+    padding: 14px clamp(24px, 5vw, 80px);
     background: rgba(10, 10, 12, .55);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(255,255,255,.12);

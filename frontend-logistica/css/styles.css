@@ -43,21 +43,42 @@ body {
 
 .hero {
     position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-image:
-        linear-gradient(rgba(10,10,12,.72), rgba(10,10,12,.82)),
+        linear-gradient(180deg, rgba(10,10,12,.55) 0%, rgba(10,10,12,.40) 35%, rgba(14,14,16,.92) 100%),
         url('../assets/hero-camion.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: center 35%;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* parallax: la imagen queda fija al hacer scroll */
     color: #fff;
     border-bottom: 1px solid var(--line);
+    overflow: hidden;
 }
-/* Variantes por modulo: cambian la imagen/tinte del hero */
-.hero--conductores { background-image: linear-gradient(rgba(10,10,12,.78), rgba(10,10,12,.88)), url('../assets/hero-camion.jpg'); }
-.hero--rutas       { background-image: linear-gradient(rgba(10,10,12,.78), rgba(10,10,12,.88)), url('../assets/hero-camion.jpg'); }
-.hero--viajes      { background-image: linear-gradient(rgba(10,10,12,.78), rgba(10,10,12,.88)), url('../assets/hero-camion.jpg'); }
+/* Vineta lateral + grano sutil para dar profundidad a la imagen */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(10,10,12,.55) 100%);
+    pointer-events: none;
+}
+/* Variantes por modulo: mismo tratamiento de imagen full-bleed */
+.hero--conductores,
+.hero--rutas,
+.hero--viajes {
+    background-image:
+        linear-gradient(180deg, rgba(10,10,12,.55) 0%, rgba(10,10,12,.40) 35%, rgba(14,14,16,.92) 100%),
+        url('../assets/hero-camion.jpg');
+}
 
 .hero__overlay {
     position: relative;
+    width: 100%;
     max-width: 1180px;
     margin: 0 auto;
     padding: 0 24px 54px;
@@ -169,34 +190,90 @@ body {
     margin-top: 28px;
 }
 .stat {
-    background: var(--bg-2);
+    position: relative;
+    background:
+        linear-gradient(160deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 45%),
+        var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 22px;
-    text-align: center;
-    border-top: 3px solid var(--gold);
+    border-radius: 16px;
+    padding: 24px 22px 22px;
+    text-align: left;
+    overflow: hidden;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
-.stat--ok   { border-top-color: #2f9e5f; }
-.stat--ruta { border-top-color: #c8a052; }
-.stat--mant { border-top-color: #c87a3f; }
-.stat__num { font-size: 32px; font-weight: 800; color: var(--gold); }
+/* Acento lateral en lugar del borde superior generico */
+.stat::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 18px; bottom: 18px;
+    width: 4px;
+    border-radius: 4px;
+    background: var(--gold);
+    box-shadow: 0 0 18px rgba(200,169,106,.5);
+}
+/* Resplandor de color que tine la esquina superior derecha */
+.stat::after {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,169,106,.16), transparent 70%);
+    pointer-events: none;
+}
+.stat:hover {
+    transform: translateY(-3px);
+    border-color: rgba(200,169,106,.4);
+    box-shadow: 0 14px 34px rgba(0,0,0,.45);
+}
+.stat--ok::before   { background: #2f9e5f; box-shadow: 0 0 18px rgba(47,158,95,.5); }
+.stat--ruta::before { background: #d6b25a; box-shadow: 0 0 18px rgba(214,178,90,.5); }
+.stat--mant::before { background: #d68a4a; box-shadow: 0 0 18px rgba(214,138,74,.5); }
+.stat--ok::after   { background: radial-gradient(circle, rgba(47,158,95,.18), transparent 70%); }
+.stat--ruta::after { background: radial-gradient(circle, rgba(214,178,90,.18), transparent 70%); }
+.stat--mant::after { background: radial-gradient(circle, rgba(214,138,74,.18), transparent 70%); }
+
+.stat__num {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1px;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+}
 .stat--ok   .stat__num { color: #7ee2a8; }
 .stat--ruta .stat__num { color: #f2d479; }
 .stat--mant .stat__num { color: #f4b483; }
-.stat__label { font-size: 12px; color: var(--muted); margin-top: 4px; letter-spacing: .5px; text-transform: uppercase; }
+.stat__label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
 
 /* ---------- DASHBOARD (inicio) ---------- */
 .panel-titulo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     color: var(--txt);
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
-    margin: 34px 0 14px;
-    padding-bottom: 8px;
+    margin: 38px 0 16px;
+    padding-bottom: 10px;
     border-bottom: 1px solid var(--line);
 }
 .panel-titulo:first-of-type { margin-top: 40px; }
+/* Linea dorada que crece tras el texto del titulo */
+.panel-titulo::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(200,169,106,.5), transparent);
+}
 
 .accesos {
     display: grid;
@@ -204,23 +281,138 @@ body {
     gap: 16px;
 }
 .acceso {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 16px;
-    background: var(--bg-2);
+    gap: 18px;
+    background:
+        linear-gradient(160deg, rgba(255,255,255,.04), rgba(255,255,255,0) 50%),
+        var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 20px 22px;
     text-decoration: none;
     color: var(--txt);
-    border-left: 3px solid var(--gold);
-    transition: transform .12s, border-color .15s, background .15s;
+    overflow: hidden;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
-.acceso:hover { transform: translateY(-2px); background: var(--bg-3); border-left-color: var(--gold-soft); }
-.acceso__icono { font-size: 30px; }
-.acceso__texto { display: flex; flex-direction: column; gap: 3px; }
-.acceso__texto strong { color: var(--txt); font-size: 15px; }
+.acceso:hover {
+    transform: translateY(-3px);
+    border-color: rgba(200,169,106,.45);
+    box-shadow: 0 14px 32px rgba(0,0,0,.45);
+}
+/* Chip con relieve dorado para el icono */
+.acceso__icono {
+    flex: 0 0 auto;
+    width: 54px; height: 54px;
+    display: grid; place-items: center;
+    font-size: 26px;
+    border-radius: 14px;
+    background: radial-gradient(120% 120% at 30% 20%, rgba(200,169,106,.22), rgba(200,169,106,.06));
+    border: 1px solid rgba(200,169,106,.35);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 6px 16px rgba(0,0,0,.35);
+    transition: transform .18s ease;
+}
+.acceso:hover .acceso__icono { transform: scale(1.06) rotate(-3deg); }
+.acceso__texto { display: flex; flex-direction: column; gap: 4px; }
+.acceso__texto strong { color: var(--txt); font-size: 15px; letter-spacing: .2px; }
 .acceso__texto small { color: var(--muted); font-size: 13px; }
+/* Flecha indicadora al final de la tarjeta */
+.acceso::after {
+    content: '→';
+    position: absolute;
+    right: 22px;
+    color: var(--gold);
+    font-size: 18px;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity .18s ease, transform .18s ease;
+}
+.acceso:hover::after { opacity: 1; transform: translateX(0); }
+
+/* ---------- MODULOS (inicio: tarjetas grandes que redirigen) ---------- */
+.modulos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+.modulo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    min-height: 124px;
+    background:
+        linear-gradient(155deg, rgba(255,255,255,.05), rgba(255,255,255,0) 55%),
+        var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 26px 28px;
+    text-decoration: none;
+    color: var(--txt);
+    overflow: hidden;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+/* Resplandor dorado en la esquina */
+.modulo::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,169,106,.16), transparent 70%);
+    pointer-events: none;
+    transition: opacity .2s ease;
+}
+.modulo:hover {
+    transform: translateY(-4px);
+    border-color: rgba(200,169,106,.5);
+    box-shadow: 0 18px 40px rgba(0,0,0,.5);
+}
+/* Chip grande con relieve dorado */
+.modulo__icono {
+    flex: 0 0 auto;
+    width: 66px; height: 66px;
+    display: grid; place-items: center;
+    font-size: 32px;
+    border-radius: 18px;
+    background: radial-gradient(120% 120% at 30% 20%, rgba(200,169,106,.26), rgba(200,169,106,.07));
+    border: 1px solid rgba(200,169,106,.4);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 8px 20px rgba(0,0,0,.4);
+    transition: transform .2s ease;
+}
+.modulo:hover .modulo__icono { transform: scale(1.08) rotate(-4deg); }
+.modulo__texto { display: flex; flex-direction: column; gap: 6px; }
+.modulo__texto strong {
+    color: var(--txt);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: .3px;
+}
+.modulo__texto small { color: var(--muted); font-size: 13.5px; line-height: 1.4; }
+/* Flecha indicadora */
+.modulo::after {
+    content: '→';
+    position: absolute;
+    right: 26px;
+    bottom: 22px;
+    color: var(--gold);
+    font-size: 22px;
+    opacity: .35;
+    transform: translateX(-4px);
+    transition: opacity .2s ease, transform .2s ease;
+}
+.modulo:hover::after { opacity: 1; transform: translateX(0); }
+
+/* Entrada escalonada de los modulos */
+.modulos .modulo { animation: subir .5s ease both; }
+.modulos .modulo:nth-child(1) { animation-delay: .04s; }
+.modulos .modulo:nth-child(2) { animation-delay: .10s; }
+.modulos .modulo:nth-child(3) { animation-delay: .16s; }
+.modulos .modulo:nth-child(4) { animation-delay: .22s; }
+@media (prefers-reduced-motion: reduce) {
+    .modulos .modulo { animation: none; }
+}
 
 /* ---------- TOOLBAR ---------- */
 .toolbar {
@@ -413,10 +605,36 @@ body {
 .login-card__btn { width: 100%; margin-top: 8px; }
 .login-body .mensaje { margin-top: 0; margin-bottom: 14px; }
 
+/* ---------- ANIMACIONES DE ENTRADA ---------- */
+@keyframes subir {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.stats .stat,
+.accesos .acceso {
+    animation: subir .5s ease both;
+}
+.stats .stat:nth-child(1), .accesos .acceso:nth-child(1) { animation-delay: .04s; }
+.stats .stat:nth-child(2), .accesos .acceso:nth-child(2) { animation-delay: .10s; }
+.stats .stat:nth-child(3), .accesos .acceso:nth-child(3) { animation-delay: .16s; }
+.stats .stat:nth-child(4), .accesos .acceso:nth-child(4) { animation-delay: .22s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .stats .stat, .accesos .acceso { animation: none; }
+}
+
+/* En pantallas tactiles background-attachment:fixed falla (iOS) o trabaja
+   mal: se desactiva el parallax y se deja la imagen normal. */
+@media (hover: none), (max-width: 720px) {
+    .hero { background-attachment: scroll; }
+}
+
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 720px) {
+    .hero { min-height: 92vh; }
     .stats { grid-template-columns: repeat(2, 1fr); }
     .accesos { grid-template-columns: 1fr; }
+    .modulos { grid-template-columns: 1fr; }
     .hero__title { font-size: 28px; }
     .hero__name { letter-spacing: 3px; font-size: 20px; }
     .form__row { grid-template-columns: 1fr; }

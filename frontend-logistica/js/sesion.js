@@ -119,7 +119,16 @@ function pintarBarraUsuario(usuario) {
 
     barra.appendChild(info);
     barra.appendChild(btn);
-    brand.parentElement.insertBefore(barra, brand.nextSibling);
+
+    // Se coloca dentro del nav (si existe) para que ocupe su propio espacio
+    // en el flujo y nunca se solape con los enlaces. Si no hay nav, se inserta
+    // junto a la marca como respaldo.
+    const nav = document.querySelector('.nav');
+    if (nav) {
+        nav.appendChild(barra);
+    } else {
+        brand.parentElement.insertBefore(barra, brand.nextSibling);
+    }
 }
 
 })();

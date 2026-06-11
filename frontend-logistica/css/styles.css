@@ -128,11 +128,11 @@ body {
 /* ---------- NAVEGACION (barra horizontal superior) ---------- */
 .nav {
     display: flex;
+    align-items: center;
     justify-content: center;
     gap: 8px;
     flex-wrap: wrap;
-    /* padding-top extra: reserva la franja superior para la userbar (pildora) */
-    padding: 66px 0 18px;
+    padding: 18px 0;
     border-bottom: 1px solid rgba(255,255,255,.12);
 }
 .nav__link {
@@ -156,22 +156,20 @@ body {
 }
 
 /* ---------- BARRA DE USUARIO (sesion) ---------- */
-/* sesion.js inserta la userbar tras .hero__brand. Se agrupa como una
-   "pildora" anclada arriba a la derecha del hero, por encima de la fila
-   del nav, para que se lea como un componente y no como texto suelto. */
+/* sesion.js inserta la userbar DENTRO del nav. Con margin-left:auto se
+   empuja al extremo derecho y ocupa su propio espacio en el flujo, por lo
+   que nunca se solapa con los enlaces. Se agrupa como una "pildora". */
 .userbar {
-    position: absolute;
-    top: 16px; right: 24px;
+    margin-left: auto;
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    padding: 8px 10px 8px 16px;
+    padding: 7px 10px 7px 16px;
     background: rgba(10, 10, 12, .55);
     border: 1px solid rgba(255, 255, 255, .12);
     border-radius: 999px;
     backdrop-filter: blur(6px);
     box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
-    z-index: 5;
 }
 .userbar__info { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 600; font-size: 13px; }
 .userbar__ico { display: inline-flex; color: var(--gold); }
@@ -677,10 +675,9 @@ body {
     .nav { gap: 4px; padding: 12px 0; }
     .nav__link { padding: 6px 10px; letter-spacing: .5px; }
     .userbar {
-        position: static;
-        margin: 14px 0 0;
-        justify-content: center;
+        margin: 8px auto 0;
         flex-wrap: wrap;
+        justify-content: center;
     }
 }
 

@@ -53,12 +53,12 @@ body {
     background-size: cover;
     background-position: center 35%;
     background-repeat: no-repeat;
-    background-attachment: fixed; /* parallax: la imagen queda fija al hacer scroll */
+    background-attachment: fixed; 
     color: #fff;
     border-bottom: 1px solid var(--line);
     overflow: hidden;
 }
-/* Vineta lateral + grano sutil para dar profundidad a la imagen */
+
 .hero::before {
     content: '';
     position: absolute;
@@ -131,7 +131,8 @@ body {
     justify-content: center;
     gap: 8px;
     flex-wrap: wrap;
-    padding: 18px 0;
+    /* padding-top extra: reserva la franja superior para la userbar (pildora) */
+    padding: 66px 0 18px;
     border-bottom: 1px solid rgba(255,255,255,.12);
 }
 .nav__link {
@@ -155,22 +156,40 @@ body {
 }
 
 /* ---------- BARRA DE USUARIO (sesion) ---------- */
-/* sesion.js inserta la userbar tras .hero__brand. La sacamos del flujo
-   y la anclamos arriba a la derecha, por ENCIMA de la fila del nav,
-   para que nunca se solape con los enlaces de navegación. */
+/* sesion.js inserta la userbar tras .hero__brand. Se agrupa como una
+   "pildora" anclada arriba a la derecha del hero, por encima de la fila
+   del nav, para que se lea como un componente y no como texto suelto. */
 .userbar {
     position: absolute;
-    top: -42px; right: 24px;
-    display: flex;
+    top: 16px; right: 24px;
+    display: inline-flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
+    padding: 8px 10px 8px 16px;
+    background: rgba(10, 10, 12, .55);
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
     z-index: 5;
 }
-.userbar__info { display: inline-flex; align-items: center; gap: 7px; color: #fff; font-weight: 600; font-size: 13px; }
+.userbar__info { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 600; font-size: 13px; }
 .userbar__ico { display: inline-flex; color: var(--gold); }
 .userbar__ico svg { display: block; }
 .userbar__rol { color: var(--gold-soft); font-weight: 500; text-transform: capitalize; }
-.userbar__logout { padding: 7px 14px; font-size: 12px; }
+/* Separador sutil entre el nombre y el boton */
+.userbar__info::after {
+    content: '';
+    width: 1px;
+    height: 18px;
+    margin-left: 4px;
+    background: rgba(255, 255, 255, .18);
+}
+.userbar__logout {
+    padding: 7px 16px;
+    font-size: 12px;
+    border-radius: 999px;
+}
 
 /* ---------- CONTAINER ---------- */
 .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }

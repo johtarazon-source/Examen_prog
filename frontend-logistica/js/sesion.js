@@ -120,15 +120,10 @@ function pintarBarraUsuario(usuario) {
     barra.appendChild(info);
     barra.appendChild(btn);
 
-    // Se coloca dentro del nav (si existe) para que ocupe su propio espacio
-    // en el flujo y nunca se solape con los enlaces. Si no hay nav, se inserta
-    // junto a la marca como respaldo.
-    const nav = document.querySelector('.nav');
-    if (nav) {
-        nav.appendChild(barra);
-    } else {
-        brand.parentElement.insertBefore(barra, brand.nextSibling);
-    }
+    // Se ancla en la esquina superior derecha del hero (position:absolute via
+    // CSS), por encima de la fila del nav.
+    const overlay = document.querySelector('.hero__overlay') || brand.parentElement;
+    overlay.appendChild(barra);
 }
 
 })();

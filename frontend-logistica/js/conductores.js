@@ -98,8 +98,8 @@ function renderTabla(conductores) {
             <td><span class="badge badge--${estadoClase}">${esc(estadoTexto)}</span></td>
             <td>
                 <div class="acciones">
-                    <button class="icon-btn" title="Editar" data-accion="editar" data-id="${esc(c.id)}">✏️</button>
-                    <button class="icon-btn icon-btn--del" title="Eliminar" data-accion="eliminar" data-id="${esc(c.id)}">🗑️</button>
+                    <button class="icon-btn" title="Editar" data-accion="editar" data-id="${esc(c.id)}">${ICO.editar}</button>
+                    <button class="icon-btn icon-btn--del" title="Eliminar" data-accion="eliminar" data-id="${esc(c.id)}">${ICO.eliminar}</button>
                 </div>
             </td>
         </tr>`;

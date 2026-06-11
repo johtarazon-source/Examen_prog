@@ -96,7 +96,14 @@ function pintarBarraUsuario(usuario) {
 
     const info = document.createElement('span');
     info.className = 'userbar__info';
-    info.textContent = `👤 ${nombre}`;
+    // El icono se inserta como SVG (innerHTML controlado por ICO, sin datos del usuario);
+    // el nombre se agrega aparte con textContent para evitar cualquier riesgo de XSS.
+    const ico = document.createElement('span');
+    ico.className = 'userbar__ico';
+    ico.innerHTML = ICO.usuario;
+    const nombreSpan = document.createElement('span');
+    nombreSpan.textContent = nombre;
+    info.append(ico, nombreSpan);
 
     const rolSpan = document.createElement('span');
     rolSpan.className = 'userbar__rol';

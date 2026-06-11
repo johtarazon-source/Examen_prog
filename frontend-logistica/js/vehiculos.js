@@ -105,8 +105,8 @@ function renderTabla(vehiculos) {
             <td><span class="badge badge--${estadoClase}">${esc(estadoTexto)}</span></td>
             <td>
                 <div class="acciones">
-                    <button class="icon-btn" title="Editar" data-accion="editar" data-id="${esc(v.id)}">✏️</button>
-                    <button class="icon-btn icon-btn--del" title="Eliminar" data-accion="eliminar" data-id="${esc(v.id)}">🗑️</button>
+                    <button class="icon-btn" title="Editar" data-accion="editar" data-id="${esc(v.id)}">${ICO.editar}</button>
+                    <button class="icon-btn icon-btn--del" title="Eliminar" data-accion="eliminar" data-id="${esc(v.id)}">${ICO.eliminar}</button>
                 </div>
             </td>
         </tr>`;

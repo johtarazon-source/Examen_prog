@@ -85,8 +85,8 @@ function renderTabla(rutas) {
             <td>${esc(r.observaciones || '—')}</td>
             <td>
                 <div class="acciones">
-                    <button class="icon-btn" title="Editar" data-accion="editar" data-id="${esc(r.id)}">✏️</button>
-                    <button class="icon-btn icon-btn--del" title="Eliminar" data-accion="eliminar" data-id="${esc(r.id)}">🗑️</button>
+                    <button class="icon-btn" title="Editar" data-accion="editar" data-id="${esc(r.id)}">${ICO.editar}</button>
+                    <button class="icon-btn icon-btn--del" title="Eliminar" data-accion="eliminar" data-id="${esc(r.id)}">${ICO.eliminar}</button>
                 </div>
             </td>
         </tr>

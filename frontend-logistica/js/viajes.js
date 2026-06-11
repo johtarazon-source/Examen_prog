@@ -53,19 +53,19 @@ function mostrarMensaje(texto, tipo = 'ok') {
 // Devuelve los botones de accion segun el estado del viaje
 function botonesAccion(v) {
     const id = esc(v.id);
-    const ver = `<button class="icon-btn" title="Ver seguimiento" data-accion="seguimiento" data-id="${id}">👁️</button>`;
+    const ver = `<button class="icon-btn" title="Ver seguimiento" data-accion="seguimiento" data-id="${id}">${ICO.ver}</button>`;
 
     if (v.estado === 'programado') {
         return `
-            <button class="icon-btn" title="Iniciar viaje" data-accion="iniciar" data-id="${id}">▶️</button>
-            <button class="icon-btn" title="Reprogramar" data-accion="reprogramar" data-id="${id}">✏️</button>
-            <button class="icon-btn icon-btn--del" title="Cancelar viaje" data-accion="cancelar" data-id="${id}">✖️</button>
+            <button class="icon-btn" title="Iniciar viaje" data-accion="iniciar" data-id="${id}">${ICO.iniciar}</button>
+            <button class="icon-btn" title="Reprogramar" data-accion="reprogramar" data-id="${id}">${ICO.editar}</button>
+            <button class="icon-btn icon-btn--del" title="Cancelar viaje" data-accion="cancelar" data-id="${id}">${ICO.cancelar}</button>
             ${ver}`;
     }
     if (v.estado === 'en_transito' || v.estado === 'retrasado') {
         return `
-            <button class="icon-btn" title="Registrar novedad" data-accion="novedad" data-id="${id}">📝</button>
-            <button class="icon-btn icon-btn--del" title="Finalizar viaje" data-accion="finalizar" data-id="${id}">🏁</button>
+            <button class="icon-btn" title="Registrar novedad" data-accion="novedad" data-id="${id}">${ICO.novedad}</button>
+            <button class="icon-btn icon-btn--del" title="Finalizar viaje" data-accion="finalizar" data-id="${id}">${ICO.finalizar}</button>
             ${ver}`;
     }
     // finalizado o cancelado: solo ver
@@ -112,9 +112,9 @@ function renderTabla(viajes) {
         return `
         <tr>
             <td class="tabla__placa">#${esc(v.id)}</td>
-            <td>👤 ${esc(v.conductor_id)}</td>
-            <td>🚛 ${esc(v.vehiculo_id)}</td>
-            <td>🗺️ ${esc(v.ruta_id)}</td>
+            <td><span class="cell-ico">${ICO.conductor}</span>${esc(v.conductor_id)}</td>
+            <td><span class="cell-ico">${ICO.vehiculo}</span>${esc(v.vehiculo_id)}</td>
+            <td><span class="cell-ico">${ICO.ruta}</span>${esc(v.ruta_id)}</td>
             <td>${esc(v.fecha_salida)} ${esc(v.hora_salida)}</td>
             <td><span class="badge badge--${estadoClase}">${esc(ESTADO_LABEL[v.estado] || v.estado)}</span></td>
             <td><div class="acciones">${botonesAccion(v)}</div></td>

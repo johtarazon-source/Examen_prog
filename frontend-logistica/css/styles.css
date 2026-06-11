@@ -155,15 +155,20 @@ body {
 }
 
 /* ---------- BARRA DE USUARIO (sesion) ---------- */
+/* sesion.js inserta la userbar tras .hero__brand. La sacamos del flujo
+   y la anclamos arriba a la derecha, por ENCIMA de la fila del nav,
+   para que nunca se solape con los enlaces de navegación. */
 .userbar {
     position: absolute;
-    top: 18px; right: 24px;
+    top: -42px; right: 24px;
     display: flex;
     align-items: center;
     gap: 14px;
-    z-index: 3;
+    z-index: 5;
 }
-.userbar__info { color: #fff; font-weight: 600; font-size: 13px; }
+.userbar__info { display: inline-flex; align-items: center; gap: 7px; color: #fff; font-weight: 600; font-size: 13px; }
+.userbar__ico { display: inline-flex; color: var(--gold); }
+.userbar__ico svg { display: block; }
 .userbar__rol { color: var(--gold-soft); font-weight: 500; text-transform: capitalize; }
 .userbar__logout { padding: 7px 14px; font-size: 12px; }
 
@@ -521,12 +526,23 @@ body {
     width: 34px; height: 34px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 15px;
-    transition: background .15s, border-color .15s;
+    display: inline-grid;
+    place-items: center;
+    transition: background .15s, border-color .15s, color .15s;
 }
+.icon-btn svg { display: block; }
 .icon-btn:hover { background: var(--nav); border-color: var(--gold); }
 .icon-btn--del { background: var(--red-bg); color: #f3a3a3; border-color: #5a2424; }
 .icon-btn--del:hover { background: #4a1d1d; }
+
+/* Icono dentro de una celda de tabla (conductor / vehiculo / ruta en viajes) */
+.cell-ico {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-right: 7px;
+    color: var(--gold);
+}
+.cell-ico svg { display: block; }
 
 /* ---------- MODAL ---------- */
 .modal {

@@ -150,7 +150,7 @@ async function guardarVehiculo(e) {
 
     const id = document.getElementById('vehiculoId').value;
     const datos = {
-        placa:           document.getElementById('placa').value.trim(),
+        placa:           document.getElementById('placa').value.trim().toUpperCase(),
         tipo_vehiculo:   document.getElementById('tipo_vehiculo').value.trim(),
         marca:           document.getElementById('marca').value.trim(),
         modelo:          document.getElementById('modelo').value.trim(),

@@ -503,6 +503,8 @@ body {
 }
 .input::placeholder { color: #6f6f75; }
 .input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,169,106,.18); }
+/* Campo que muestra el texto en mayusculas mientras se escribe (ej. placas) */
+.input--upper { text-transform: uppercase; }
 .input option, .input { color-scheme: dark; }
 
 .btn {

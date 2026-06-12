@@ -1,26 +1,15 @@
 // =====================================================
-// Guardia de sesion - protege las paginas internas
-// Consume ms-auth (/validar y /logout) con el token guardado.
-// Debe incluirse ANTES de los scripts de cada modulo
-// (vehiculos.js / conductores.js) en las paginas protegidas.
+// Barra de usuario. El login es opcional: la aplicacion entra directo
+// sin exigir sesion. Si hay un usuario guardado se muestra; si no, se
+// usa un usuario por defecto. Se conserva la opcion de cerrar sesion.
 // =====================================================
 
-// Todo el guard vive dentro de una IIFE para no contaminar el ambito global
+// Todo vive dentro de una IIFE para no contaminar el ambito global
 // que comparten vehiculos.js / conductores.js (evita choques de nombres).
 (function () {
 
-    const token   = localStorage.getItem('token');
-    const usuario = obtenerUsuario();
-
-    // Sin token no hay nada que validar: de vuelta al login.
-    if (!token) {
-        window.location.replace('login.html');
-        return;
-    }
-
-    // Validar el token contra el microservicio de autenticacion.
-    // Si la sesion ya no es valida, se limpia y se redirige al login.
-    validarSesion(token);
+    // Usuario guardado (si se inicio sesion) o uno por defecto.
+    const usuario = obtenerUsuario() || { nombre: 'Invitado', rol: 'administrador' };
 
     // Cuando el DOM este listo, pintar la barra de usuario.
     document.addEventListener('DOMContentLoaded', () => pintarBarraUsuario(usuario));
@@ -40,43 +29,28 @@ function limpiarSesion() {
     localStorage.removeItem('usuario');
 }
 
-async function validarSesion(token) {
-    try {
-        const res = await fetch(`${API_AUTH}/validar`, {
-            headers: { 'Authorization': `Bearer ${token}` },
-        });
-        const json = await res.json();
-
-        if (!json.success) {
-            limpiarSesion();
-            window.location.replace('login.html');
-        }
-    } catch (err) {
-        // Si ms-auth no responde no expulsamos al usuario: solo avisamos
-        // por consola para no bloquear el trabajo si el servicio esta caido.
-        console.warn(`No se pudo validar la sesión con ${API_AUTH}/validar`, err);
-    }
-}
-
 async function cerrarSesion() {
     const token = localStorage.getItem('token');
 
-    try {
-        await fetch(`${API_AUTH}/logout`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify({ token }),
-        });
-    } catch (err) {
-        // Aunque falle la llamada al servidor, cerramos la sesion local.
-        console.warn('No se pudo notificar el cierre de sesión al servidor', err);
-    } finally {
-        limpiarSesion();
-        window.location.replace('login.html');
+    // Si habia una sesion real, se notifica el cierre al servidor (mejor esfuerzo).
+    if (token) {
+        try {
+            await fetch(`${API_AUTH}/logout`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ token }),
+            });
+        } catch (err) {
+            console.warn('No se pudo notificar el cierre de sesión al servidor', err);
+        }
     }
+
+    // El login es opcional: tras cerrar sesion se recarga la pagina actual.
+    limpiarSesion();
+    window.location.reload();
 }
 
 // ---------- Barra de usuario ----------

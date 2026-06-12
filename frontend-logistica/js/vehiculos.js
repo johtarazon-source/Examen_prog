@@ -87,7 +87,7 @@ async function cargarVehiculos() {
 
 function renderTabla(vehiculos) {
     if (!vehiculos.length) {
-        tablaBody.innerHTML = `<tr><td colspan="7" class="tabla__empty">No hay vehículos registrados.</td></tr>`;
+        tablaBody.innerHTML = `<tr><td colspan="5" class="tabla__empty">No hay vehículos registrados.</td></tr>`;
         return;
     }
 
@@ -97,11 +97,9 @@ function renderTabla(vehiculos) {
         const estadoTexto = ESTADO_LABEL[v.estado] || v.estado;
         return `
         <tr>
-            <td class="tabla__placa">${esc(v.placa)}</td>
+            <td><span class="cell-ico">${ICO.vehiculo}</span><span class="tabla__placa">${esc(v.placa)}</span></td>
             <td>${esc(v.tipo_vehiculo)}</td>
-            <td>${esc(v.marca)}</td>
-            <td>${esc(v.modelo)}</td>
-            <td>${esc(formatCapacidad(v.capacidad_carga))}</td>
+            <td>${esc(v.marca)} · ${esc(v.modelo)} · ${esc(formatCapacidad(v.capacidad_carga))}</td>
             <td><span class="badge badge--${estadoClase}">${esc(estadoTexto)}</span></td>
             <td>
                 <div class="acciones">
@@ -114,10 +112,76 @@ function renderTabla(vehiculos) {
 }
 
 function renderStats(vehiculos) {
-    statTotal.textContent         = vehiculos.length;
-    statDisponibles.textContent   = vehiculos.filter(v => v.estado === 'disponible').length;
-    statEnRuta.textContent        = vehiculos.filter(v => v.estado === 'en_ruta').length;
-    statMantenimiento.textContent = vehiculos.filter(v => v.estado === 'mantenimiento').length;
+    const total         = vehiculos.length;
+    const disponibles   = vehiculos.filter(v => v.estado === 'disponible').length;
+    const enRuta        = vehiculos.filter(v => v.estado === 'en_ruta').length;
+    const mantenimiento = vehiculos.filter(v => v.estado === 'mantenimiento').length;
+    const inactivos     = vehiculos.filter(v => v.estado === 'inactivo').length;
+
+    statTotal.textContent         = total;
+    statDisponibles.textContent   = disponibles;
+    statEnRuta.textContent        = enRuta;
+    statMantenimiento.textContent = mantenimiento;
+
+    // Subtitulos de las tarjetas KPI
+    document.getElementById('kpiTotalSub').textContent = `${total} ${total === 1 ? 'vehículo' : 'vehículos'}`;
+    const ocupacion = total ? Math.round((enRuta / total) * 100) : 0;
+    document.getElementById('kpiOcupacion').textContent = `${ocupacion}% de ocupación`;
+    document.getElementById('kpiInactivos').textContent = `${inactivos} ${inactivos === 1 ? 'inactivo' : 'inactivos'}`;
+
+    renderCapacidad(vehiculos);
+    renderDistribucion(vehiculos);
+}
+
+// Suma de la capacidad de carga de toda la flota y porcentaje de uso
+// (los vehiculos en ruta se consideran "capacidad en uso").
+function renderCapacidad(vehiculos) {
+    const capTotal = vehiculos.reduce((acc, v) => acc + (Number(v.capacidad_carga) || 0), 0);
+    const capEnUso = vehiculos
+        .filter(v => v.estado === 'en_ruta')
+        .reduce((acc, v) => acc + (Number(v.capacidad_carga) || 0), 0);
+    const pct = capTotal ? Math.round((capEnUso / capTotal) * 100) : 0;
+
+    document.getElementById('capTotal').textContent = capEnUso.toLocaleString('es-CO');
+    document.getElementById('capDetalle').textContent = `de ${capTotal.toLocaleString('es-CO')} kg en uso`;
+    document.getElementById('capPct').textContent = `${pct}%`;
+
+    // Anillo de progreso con conic-gradient
+    const ring = document.getElementById('capRing');
+    ring.style.background =
+        `conic-gradient(var(--gold) ${pct * 3.6}deg, rgba(255,255,255,.08) 0deg)`;
+}
+
+// Barras de distribucion por tipo de vehiculo (datos reales).
+function renderDistribucion(vehiculos) {
+    const cont = document.getElementById('barrasTipo');
+
+    if (!vehiculos.length) {
+        cont.innerHTML = `<p class="card-panel__empty">Sin datos</p>`;
+        return;
+    }
+
+    // Agrupar por tipo (normalizado a minusculas para no duplicar "Camion"/"camion")
+    const conteo = {};
+    vehiculos.forEach(v => {
+        const tipo = (v.tipo_vehiculo || 'Sin tipo').trim();
+        const clave = tipo.toLowerCase();
+        if (!conteo[clave]) conteo[clave] = { label: tipo, n: 0 };
+        conteo[clave].n += 1;
+    });
+
+    const items = Object.values(conteo).sort((a, b) => b.n - a.n);
+    const max = Math.max(...items.map(i => i.n));
+
+    cont.innerHTML = items.map(i => `
+        <div class="barra">
+            <span class="barra__label">${esc(i.label)}</span>
+            <div class="barra__track">
+                <div class="barra__fill" style="width:${Math.round((i.n / max) * 100)}%"></div>
+            </div>
+            <span class="barra__val">${i.n}</span>
+        </div>
+    `).join('');
 }
 
 // ---------- Modal ----------
@@ -238,6 +302,14 @@ tablaBody.addEventListener('click', e => {
         eliminarVehiculo(vehiculo.id, vehiculo.placa);
     }
 });
+
+// Fecha de "ultima actualizacion" en el encabezado del panel
+(function pintarFecha() {
+    const el = document.getElementById('dashFecha');
+    if (!el) return;
+    const fecha = new Date().toLocaleDateString('es-CO', { day: '2-digit', month: 'short', year: 'numeric' });
+    el.textContent = `Última actualización: ${fecha}`;
+})();
 
 // Carga inicial
 cargarVehiculos();

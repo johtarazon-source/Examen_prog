@@ -29,68 +29,120 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container dashboard">
 
         <!-- MENSAJES -->
         <div id="mensaje" class="mensaje" hidden></div>
 
-        <!-- ESTADÍSTICAS -->
-        <section class="stats">
-            <div class="stat stat--total">
-                <div class="stat__num" id="statTotal">0</div>
-                <div class="stat__label">Total</div>
+        <!-- ENCABEZADO DEL PANEL -->
+        <header class="dash-head">
+            <div>
+                <h1 class="dash-head__title">Centro de Control de Flota</h1>
+                <p class="dash-head__sub">Monitoreo y gestión de transporte</p>
             </div>
-            <div class="stat stat--ok">
-                <div class="stat__num" id="statDisponibles">0</div>
-                <div class="stat__label">Disponibles</div>
-            </div>
-            <div class="stat stat--ruta">
-                <div class="stat__num" id="statEnRuta">0</div>
-                <div class="stat__label">En ruta</div>
-            </div>
-            <div class="stat stat--mant">
-                <div class="stat__num" id="statMantenimiento">0</div>
-                <div class="stat__label">Mantenimiento</div>
-            </div>
+            <span class="dash-head__date" id="dashFecha">—</span>
+        </header>
+
+        <!-- TARJETAS KPI -->
+        <section class="kpis">
+            <article class="kpi kpi--total">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v13H1Z"/><path d="M14 8h4l3 3v5h-7Z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statTotal">0</span> Total</div>
+                    <div class="kpi__sub" id="kpiTotalSub">0 vehículos</div>
+                </div>
+            </article>
+
+            <article class="kpi kpi--ruta">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statEnRuta">0</span> En ruta</div>
+                    <div class="kpi__sub" id="kpiOcupacion">0% de ocupación</div>
+                </div>
+            </article>
+
+            <article class="kpi kpi--ok">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statDisponibles">0</span> Disponibles</div>
+                    <div class="kpi__sub">Listos para asignar</div>
+                </div>
+            </article>
+
+            <article class="kpi kpi--mant">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6Z"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statMantenimiento">0</span> Mantenimiento</div>
+                    <div class="kpi__sub" id="kpiInactivos">0 inactivos</div>
+                </div>
+            </article>
         </section>
 
-        <!-- BARRA DE ACCIONES -->
-        <section class="toolbar">
-            <div class="toolbar__filters">
-                <input type="text" id="filtroPlaca" class="input" placeholder="Buscar por placa...">
-                <select id="filtroTipo" class="input">
-                    <option value="">Todos los tipos</option>
-                    <option value="Camion">Camión</option>
-                    <option value="Furgon">Furgón</option>
-                </select>
-                <select id="filtroEstado" class="input">
-                    <option value="">Todos los estados</option>
-                    <option value="disponible">Disponible</option>
-                    <option value="en_ruta">En ruta</option>
-                    <option value="mantenimiento">Mantenimiento</option>
-                    <option value="inactivo">Inactivo</option>
-                </select>
-                <button class="btn btn--ghost" id="btnBuscar">Buscar</button>
-            </div>
-            <button class="btn btn--primary" id="btnNuevo">+ Nuevo vehículo</button>
+        <!-- PANELES: DISTRIBUCIÓN Y CAPACIDAD -->
+        <section class="dash-grid">
+            <article class="card-panel">
+                <h2 class="card-panel__title">Distribución por tipo</h2>
+                <div class="barras" id="barrasTipo">
+                    <p class="card-panel__empty">Sin datos</p>
+                </div>
+            </article>
+
+            <article class="card-panel card-panel--cap">
+                <h2 class="card-panel__title">Capacidad total de la flota</h2>
+                <div class="cap">
+                    <div class="cap__info">
+                        <div class="cap__num"><span id="capTotal">0</span> <small>kg</small></div>
+                        <div class="cap__det" id="capDetalle">de 0 kg</div>
+                    </div>
+                    <div class="ring" id="capRing">
+                        <span class="ring__pct" id="capPct">0%</span>
+                    </div>
+                </div>
+            </article>
         </section>
 
-        <!-- TABLA -->
+        <!-- TABLA DE VEHÍCULOS -->
         <section class="card-table">
+            <div class="card-table__head">
+                <h2 class="card-table__title">Vehículos</h2>
+                <div class="toolbar__filters">
+                    <input type="text" id="filtroPlaca" class="input" placeholder="Buscar por placa...">
+                    <select id="filtroTipo" class="input">
+                        <option value="">Todos los tipos</option>
+                        <option value="Camion">Camión</option>
+                        <option value="Furgon">Furgón</option>
+                    </select>
+                    <select id="filtroEstado" class="input">
+                        <option value="">Todos los estados</option>
+                        <option value="disponible">Disponible</option>
+                        <option value="en_ruta">En ruta</option>
+                        <option value="mantenimiento">Mantenimiento</option>
+                        <option value="inactivo">Inactivo</option>
+                    </select>
+                    <button class="btn btn--ghost" id="btnBuscar">Buscar</button>
+                </div>
+                <button class="btn btn--primary" id="btnNuevo">+ Nuevo vehículo</button>
+            </div>
             <table class="tabla">
                 <thead>
                     <tr>
                         <th>Placa</th>
                         <th>Tipo</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Capacidad</th>
+                        <th>Marca / Modelo / Capacidad</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tablaBody">
-                    <tr><td colspan="7" class="tabla__empty">Cargando...</td></tr>
+                    <tr><td colspan="5" class="tabla__empty">Cargando...</td></tr>
                 </tbody>
             </table>
         </section>

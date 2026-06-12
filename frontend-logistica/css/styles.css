@@ -600,7 +600,15 @@ body {
     display: grid;
     place-items: center;
     padding: 20px;
-    z-index: 50;
+    /* por encima de la barra superior fija (.nav z-index:100) para que el
+       overlay cubra toda la ventana y el formulario quede centrado en pantalla */
+    z-index: 200;
+    overflow-y: auto;
+}
+/* El modal arranca oculto (atributo hidden) y solo se muestra al pulsar
+   "+ Nuevo/a...". Esta regla garantiza que hidden gane sobre display:grid. */
+.modal[hidden] {
+    display: none;
 }
 .modal__box {
     background: var(--bg-2);

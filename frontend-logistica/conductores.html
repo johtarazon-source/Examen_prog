@@ -29,64 +29,117 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container dashboard">
 
         <!-- MENSAJES -->
         <div id="mensaje" class="mensaje" hidden></div>
 
-        <!-- ESTADÍSTICAS -->
-        <section class="stats">
-            <div class="stat stat--total">
-                <div class="stat__num" id="statTotal">0</div>
-                <div class="stat__label">Total</div>
+        <!-- ENCABEZADO DEL PANEL -->
+        <header class="dash-head">
+            <div>
+                <h1 class="dash-head__title">Centro de Personal</h1>
+                <p class="dash-head__sub">Administración de conductores</p>
             </div>
-            <div class="stat stat--ok">
-                <div class="stat__num" id="statDisponibles">0</div>
-                <div class="stat__label">Disponibles</div>
-            </div>
-            <div class="stat stat--ruta">
-                <div class="stat__num" id="statEnRuta">0</div>
-                <div class="stat__label">En ruta</div>
-            </div>
-            <div class="stat stat--mant">
-                <div class="stat__num" id="statInactivos">0</div>
-                <div class="stat__label">Inactivos</div>
-            </div>
+            <span class="dash-head__date" id="dashFecha">—</span>
+        </header>
+
+        <!-- TARJETAS KPI -->
+        <section class="kpis">
+            <article class="kpi kpi--total">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statTotal">0</span> Total</div>
+                    <div class="kpi__sub" id="kpiTotalSub">0 conductores</div>
+                </div>
+            </article>
+
+            <article class="kpi kpi--ruta">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statEnRuta">0</span> En ruta</div>
+                    <div class="kpi__sub" id="kpiOcupacion">0% asignados</div>
+                </div>
+            </article>
+
+            <article class="kpi kpi--ok">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statDisponibles">0</span> Disponibles</div>
+                    <div class="kpi__sub">Listos para asignar</div>
+                </div>
+            </article>
+
+            <article class="kpi kpi--mant">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statInactivos">0</span> Inactivos</div>
+                    <div class="kpi__sub">No disponibles</div>
+                </div>
+            </article>
         </section>
 
-        <!-- BARRA DE ACCIONES -->
-        <section class="toolbar">
-            <div class="toolbar__filters">
-                <input type="text" id="filtroDocumento" class="input" placeholder="Buscar por documento...">
-                <input type="text" id="filtroLicencia" class="input" placeholder="Buscar por licencia...">
-                <select id="filtroEstado" class="input">
-                    <option value="">Todos los estados</option>
-                    <option value="disponible">Disponible</option>
-                    <option value="en_ruta">En ruta</option>
-                    <option value="inactivo">Inactivo</option>
-                </select>
-                <button class="btn btn--ghost" id="btnBuscar">Buscar</button>
-            </div>
-            <button class="btn btn--primary" id="btnNuevo">+ Nuevo conductor</button>
+        <!-- PANELES: DISTRIBUCIÓN Y LICENCIAS -->
+        <section class="dash-grid">
+            <article class="card-panel">
+                <h2 class="card-panel__title">Distribución por categoría de licencia</h2>
+                <div class="barras" id="barrasCategoria">
+                    <p class="card-panel__empty">Sin datos</p>
+                </div>
+            </article>
+
+            <article class="card-panel card-panel--cap">
+                <h2 class="card-panel__title">Estado de licencias</h2>
+                <div class="cap">
+                    <div class="cap__info">
+                        <div class="cap__num"><span id="licVigentes">0</span> <small>vigentes</small></div>
+                        <div class="cap__det" id="licDetalle">0 por vencer (90 días)</div>
+                    </div>
+                    <div class="ring" id="licRing">
+                        <span class="ring__pct" id="licPct">0%</span>
+                    </div>
+                </div>
+            </article>
         </section>
 
-        <!-- TABLA -->
+        <!-- TABLA DE CONDUCTORES -->
         <section class="card-table">
+            <div class="card-table__head">
+                <h2 class="card-table__title">Conductores</h2>
+                <div class="toolbar__filters">
+                    <input type="text" id="filtroDocumento" class="input" placeholder="Buscar por documento...">
+                    <input type="text" id="filtroLicencia" class="input" placeholder="Buscar por licencia...">
+                    <select id="filtroEstado" class="input">
+                        <option value="">Todos los estados</option>
+                        <option value="disponible">Disponible</option>
+                        <option value="en_ruta">En ruta</option>
+                        <option value="inactivo">Inactivo</option>
+                    </select>
+                    <button class="btn btn--ghost" id="btnBuscar">Buscar</button>
+                </div>
+                <button class="btn btn--primary" id="btnNuevo">+ Nuevo conductor</button>
+            </div>
             <table class="tabla">
                 <thead>
                     <tr>
                         <th>Documento</th>
                         <th>Nombre</th>
                         <th>Teléfono</th>
-                        <th>Licencia</th>
-                        <th>Categoría</th>
+                        <th>Licencia / Categoría</th>
                         <th>Vencimiento</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tablaBody">
-                    <tr><td colspan="8" class="tabla__empty">Cargando...</td></tr>
+                    <tr><td colspan="7" class="tabla__empty">Cargando...</td></tr>
                 </tbody>
             </table>
         </section>

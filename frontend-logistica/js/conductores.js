@@ -80,7 +80,7 @@ async function cargarConductores() {
 
 function renderTabla(conductores) {
     if (!conductores.length) {
-        tablaBody.innerHTML = `<tr><td colspan="8" class="tabla__empty">No hay conductores registrados.</td></tr>`;
+        tablaBody.innerHTML = `<tr><td colspan="7" class="tabla__empty">No hay conductores registrados.</td></tr>`;
         return;
     }
 
@@ -89,11 +89,10 @@ function renderTabla(conductores) {
         const estadoTexto = ESTADO_LABEL[c.estado] || c.estado;
         return `
         <tr>
-            <td class="tabla__placa">${esc(c.documento)}</td>
-            <td>${esc(c.nombres)} ${esc(c.apellidos)}</td>
+            <td><span class="tabla__placa">${esc(c.documento)}</span></td>
+            <td><span class="cell-ico">${ICO.conductor}</span>${esc(c.nombres)} ${esc(c.apellidos)}</td>
             <td>${esc(c.telefono)}</td>
-            <td>${esc(c.numero_licencia)}</td>
-            <td>${esc(c.categoria_licencia)}</td>
+            <td>${esc(c.numero_licencia)} · ${esc(c.categoria_licencia)}</td>
             <td>${esc(c.fecha_vencimiento_licencia)}</td>
             <td><span class="badge badge--${estadoClase}">${esc(estadoTexto)}</span></td>
             <td>
@@ -107,10 +106,79 @@ function renderTabla(conductores) {
 }
 
 function renderStats(conductores) {
-    statTotal.textContent       = conductores.length;
-    statDisponibles.textContent = conductores.filter(c => c.estado === 'disponible').length;
-    statEnRuta.textContent      = conductores.filter(c => c.estado === 'en_ruta').length;
-    statInactivos.textContent   = conductores.filter(c => c.estado === 'inactivo').length;
+    const total       = conductores.length;
+    const disponibles = conductores.filter(c => c.estado === 'disponible').length;
+    const enRuta      = conductores.filter(c => c.estado === 'en_ruta').length;
+    const inactivos   = conductores.filter(c => c.estado === 'inactivo').length;
+
+    statTotal.textContent       = total;
+    statDisponibles.textContent = disponibles;
+    statEnRuta.textContent      = enRuta;
+    statInactivos.textContent   = inactivos;
+
+    document.getElementById('kpiTotalSub').textContent = `${total} ${total === 1 ? 'conductor' : 'conductores'}`;
+    const asignados = total ? Math.round((enRuta / total) * 100) : 0;
+    document.getElementById('kpiOcupacion').textContent = `${asignados}% asignados`;
+
+    renderLicencias(conductores);
+    renderCategorias(conductores);
+}
+
+// Estado de licencias: vigentes vs. por vencer en los proximos 90 dias.
+function renderLicencias(conductores) {
+    const hoy = new Date();
+    const limite = new Date();
+    limite.setDate(hoy.getDate() + 90);
+
+    let vigentes = 0;
+    let porVencer = 0;
+    conductores.forEach(c => {
+        const f = new Date(c.fecha_vencimiento_licencia);
+        if (isNaN(f)) return;
+        if (f < hoy) return;                 // vencida: no cuenta como vigente
+        if (f <= limite) porVencer += 1;
+        else vigentes += 1;
+    });
+
+    const totalValidas = vigentes + porVencer;
+    const pct = totalValidas ? Math.round((vigentes / totalValidas) * 100) : 0;
+
+    document.getElementById('licVigentes').textContent = vigentes;
+    document.getElementById('licDetalle').textContent = `${porVencer} por vencer (90 días)`;
+    document.getElementById('licPct').textContent = `${pct}%`;
+
+    document.getElementById('licRing').style.background =
+        `conic-gradient(var(--gold) ${pct * 3.6}deg, rgba(255,255,255,.08) 0deg)`;
+}
+
+// Distribucion por categoria de licencia (datos reales).
+function renderCategorias(conductores) {
+    const cont = document.getElementById('barrasCategoria');
+    if (!conductores.length) {
+        cont.innerHTML = `<p class="card-panel__empty">Sin datos</p>`;
+        return;
+    }
+
+    const conteo = {};
+    conductores.forEach(c => {
+        const cat = (c.categoria_licencia || 'Sin categoría').trim();
+        const clave = cat.toUpperCase();
+        if (!conteo[clave]) conteo[clave] = { label: cat.toUpperCase(), n: 0 };
+        conteo[clave].n += 1;
+    });
+
+    const items = Object.values(conteo).sort((a, b) => b.n - a.n);
+    const max = Math.max(...items.map(i => i.n));
+
+    cont.innerHTML = items.map(i => `
+        <div class="barra">
+            <span class="barra__label">${esc(i.label)}</span>
+            <div class="barra__track">
+                <div class="barra__fill" style="width:${Math.round((i.n / max) * 100)}%"></div>
+            </div>
+            <span class="barra__val">${i.n}</span>
+        </div>
+    `).join('');
 }
 
 // ---------- Modal ----------
@@ -235,6 +303,14 @@ tablaBody.addEventListener('click', e => {
         eliminarConductor(conductor.id, `${conductor.nombres} ${conductor.apellidos}`);
     }
 });
+
+// Fecha de "ultima actualizacion" en el encabezado del panel
+(function pintarFecha() {
+    const el = document.getElementById('dashFecha');
+    if (!el) return;
+    const fecha = new Date().toLocaleDateString('es-CO', { day: '2-digit', month: 'short', year: 'numeric' });
+    el.textContent = `Última actualización: ${fecha}`;
+})();
 
 // Carga inicial
 cargarConductores();

@@ -95,9 +95,11 @@ function renderTabla(rutas) {
 
 function renderStats(rutas) {
     statTotal.textContent = rutas.length;
+    document.getElementById('kpiTotalSub').textContent = `${rutas.length} ${rutas.length === 1 ? 'ruta' : 'rutas'}`;
 
-    if (rutas.length) {
-        const distancias = rutas.map(r => Number(r.distancia)).filter(d => !isNaN(d));
+    const distancias = rutas.map(r => Number(r.distancia)).filter(d => !isNaN(d));
+
+    if (distancias.length) {
         statDistanciaMax.textContent = Math.max(...distancias).toLocaleString('es-CO');
         statDistanciaMin.textContent = Math.min(...distancias).toLocaleString('es-CO');
     } else {
@@ -109,6 +111,55 @@ function renderStats(rutas) {
     const ciudades = new Set();
     rutas.forEach(r => { ciudades.add(r.ciudad_origen); ciudades.add(r.ciudad_destino); });
     statCiudades.textContent = ciudades.size;
+
+    renderDistancia(distancias);
+    renderOrigenes(rutas);
+}
+
+// Panel de distancia: total de la red y promedio por ruta.
+function renderDistancia(distancias) {
+    const total = distancias.reduce((a, d) => a + d, 0);
+    const prom = distancias.length ? Math.round(total / distancias.length) : 0;
+
+    document.getElementById('distTotal').textContent = total.toLocaleString('es-CO');
+    document.getElementById('distDetalle').textContent = `${prom.toLocaleString('es-CO')} km promedio por ruta`;
+    document.getElementById('distProm').textContent = prom.toLocaleString('es-CO');
+
+    // El anillo se llena segun el promedio respecto al maximo (referencia visual).
+    const max = distancias.length ? Math.max(...distancias) : 1;
+    const pct = max ? Math.round((prom / max) * 100) : 0;
+    document.getElementById('distRing').style.background =
+        `conic-gradient(var(--gold) ${pct * 3.6}deg, rgba(255,255,255,.08) 0deg)`;
+}
+
+// Distribucion de rutas por ciudad de origen (datos reales).
+function renderOrigenes(rutas) {
+    const cont = document.getElementById('barrasOrigen');
+    if (!rutas.length) {
+        cont.innerHTML = `<p class="card-panel__empty">Sin datos</p>`;
+        return;
+    }
+
+    const conteo = {};
+    rutas.forEach(r => {
+        const o = (r.ciudad_origen || 'Sin origen').trim();
+        const clave = o.toLowerCase();
+        if (!conteo[clave]) conteo[clave] = { label: o, n: 0 };
+        conteo[clave].n += 1;
+    });
+
+    const items = Object.values(conteo).sort((a, b) => b.n - a.n);
+    const max = Math.max(...items.map(i => i.n));
+
+    cont.innerHTML = items.map(i => `
+        <div class="barra">
+            <span class="barra__label">${esc(i.label)}</span>
+            <div class="barra__track">
+                <div class="barra__fill" style="width:${Math.round((i.n / max) * 100)}%"></div>
+            </div>
+            <span class="barra__val">${i.n}</span>
+        </div>
+    `).join('');
 }
 
 // ---------- Modal ----------
@@ -227,6 +278,14 @@ tablaBody.addEventListener('click', e => {
         eliminarRuta(ruta.id, `${ruta.ciudad_origen} → ${ruta.ciudad_destino}`);
     }
 });
+
+// Fecha de "ultima actualizacion" en el encabezado del panel
+(function pintarFecha() {
+    const el = document.getElementById('dashFecha');
+    if (!el) return;
+    const fecha = new Date().toLocaleDateString('es-CO', { day: '2-digit', month: 'short', year: 'numeric' });
+    el.textContent = `Última actualización: ${fecha}`;
+})();
 
 // Carga inicial
 cargarRutas();

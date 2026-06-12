@@ -143,7 +143,7 @@ function renderCapacidad(vehiculos) {
     const pct = capTotal ? Math.round((capEnUso / capTotal) * 100) : 0;
 
     document.getElementById('capTotal').textContent = capEnUso.toLocaleString('es-CO');
-    document.getElementById('capDetalle').textContent = `de ${capTotal.toLocaleString('es-CO')} kg en uso`;
+    document.getElementById('capDetalle').textContent = `en uso de ${capTotal.toLocaleString('es-CO')} kg totales`;
     document.getElementById('capPct').textContent = `${pct}%`;
 
     // Anillo de progreso con conic-gradient

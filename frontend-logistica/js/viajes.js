@@ -123,10 +123,59 @@ function renderTabla(viajes) {
 }
 
 function renderStats(viajes) {
-    statTotal.textContent       = viajes.length;
-    statTransito.textContent    = viajes.filter(v => v.estado === 'en_transito').length;
-    statRetrasados.textContent  = viajes.filter(v => v.estado === 'retrasado').length;
-    statFinalizados.textContent = viajes.filter(v => v.estado === 'finalizado').length;
+    const total       = viajes.length;
+    const transito    = viajes.filter(v => v.estado === 'en_transito').length;
+    const retrasados  = viajes.filter(v => v.estado === 'retrasado').length;
+    const finalizados = viajes.filter(v => v.estado === 'finalizado').length;
+
+    statTotal.textContent       = total;
+    statTransito.textContent    = transito;
+    statRetrasados.textContent  = retrasados;
+    statFinalizados.textContent = finalizados;
+
+    document.getElementById('kpiTotalSub').textContent = `${total} ${total === 1 ? 'viaje' : 'viajes'}`;
+
+    renderFinalizacion(total, finalizados);
+    renderPorEstado(viajes);
+}
+
+// Anillo: tasa de finalizacion (finalizados / total).
+function renderFinalizacion(total, finalizados) {
+    const pct = total ? Math.round((finalizados / total) * 100) : 0;
+    document.getElementById('finCount').textContent = finalizados;
+    document.getElementById('finDetalle').textContent = `de ${total} ${total === 1 ? 'viaje' : 'viajes'}`;
+    document.getElementById('finPct').textContent = `${pct}%`;
+    document.getElementById('finRing').style.background =
+        `conic-gradient(var(--gold) ${pct * 3.6}deg, rgba(255,255,255,.08) 0deg)`;
+}
+
+// Distribucion de viajes por estado (datos reales).
+function renderPorEstado(viajes) {
+    const cont = document.getElementById('barrasEstado');
+    if (!viajes.length) {
+        cont.innerHTML = `<p class="card-panel__empty">Sin datos</p>`;
+        return;
+    }
+
+    const conteo = {};
+    viajes.forEach(v => {
+        const e = ESTADO_LABEL[v.estado] || v.estado || 'desconocido';
+        if (!conteo[e]) conteo[e] = 0;
+        conteo[e] += 1;
+    });
+
+    const items = Object.entries(conteo).map(([label, n]) => ({ label, n })).sort((a, b) => b.n - a.n);
+    const max = Math.max(...items.map(i => i.n));
+
+    cont.innerHTML = items.map(i => `
+        <div class="barra">
+            <span class="barra__label">${esc(i.label)}</span>
+            <div class="barra__track">
+                <div class="barra__fill" style="width:${Math.round((i.n / max) * 100)}%"></div>
+            </div>
+            <span class="barra__val">${i.n}</span>
+        </div>
+    `).join('');
 }
 
 // ---------- Acciones de viaje ----------
@@ -419,6 +468,14 @@ tablaBody.addEventListener('click', e => {
         }
     }
 });
+
+// Fecha de "ultima actualizacion" en el encabezado del panel
+(function pintarFecha() {
+    const el = document.getElementById('dashFecha');
+    if (!el) return;
+    const fecha = new Date().toLocaleDateString('es-CO', { day: '2-digit', month: 'short', year: 'numeric' });
+    el.textContent = `Última actualización: ${fecha}`;
+})();
 
 // Carga inicial
 cargarViajes();

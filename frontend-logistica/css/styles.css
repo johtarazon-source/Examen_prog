@@ -4,23 +4,25 @@
    ===================================================== */
 
 :root {
-    /* Paleta oscura */
-    --bg:        #0e0e10;   /* fondo general */
-    --bg-2:      #16161a;   /* paneles */
-    --bg-3:      #1f1f25;   /* filas / inputs */
-    --line:      #2a2a31;   /* bordes */
-    --nav:       #0a0a0c;   /* barra superior */
+    /* Paleta oscura azul/cian */
+    --bg:        #0b0f14;   /* fondo general */
+    --bg-2:      #111824;   /* paneles */
+    --bg-3:      #18202e;   /* filas / inputs */
+    --line:      #243042;   /* bordes */
+    --nav:       #080c12;   /* barra superior */
 
-    --txt:       #f5f5f4;   /* texto principal */
-    --muted:     #9a9a9e;   /* texto secundario */
-    --gold:      #c8a96a;   /* acento dorado/elegante */
-    --gold-soft: #d9c39a;
+    --txt:       #eef4fb;   /* texto principal */
+    --muted:     #8ca0b8;   /* texto secundario */
+    /* El acento principal pasa de dorado a cian (se conservan los nombres
+       de variable para no reescribir todas las reglas existentes). */
+    --gold:      #38bdf8;   /* acento cian */
+    --gold-soft: #7dd3fc;
 
     /* Estados (sobre fondo oscuro: fondo translucido + texto claro) */
-    --ok-bg:#14361f;     --ok-tx:#7ee2a8;
-    --warn-bg:#3a3115;   --warn-tx:#f2d479;
+    --ok-bg:#0e3a2a;     --ok-tx:#5eead4;
+    --warn-bg:#13314a;   --warn-tx:#7dd3fc;
     --orange-bg:#3a2615; --orange-tx:#f4b483;
-    --gray-bg:#2a2a31;   --gray-tx:#bdbdc2;
+    --gray-bg:#243042;   --gray-tx:#aab8cc;
     --red-bg:#3a1717;    --red-tx:#f3a3a3;
 
     --shadow: 0 10px 30px rgba(0, 0, 0, .5);
@@ -30,9 +32,18 @@
 
 body {
     font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
-    background: var(--bg);
     color: var(--txt);
     padding-bottom: 50px;
+    /* Imagen del camion fija como fondo de toda la pagina, con una capa
+       oscura encima (gradiente) para que el contenido siga legible. */
+    background:
+        linear-gradient(180deg, rgba(10,10,12,.78) 0%, rgba(12,12,14,.92) 60%, rgba(12,12,14,.97) 100%),
+        url('../assets/hero-camion.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: var(--bg);
 }
 
 /* =====================================================
@@ -85,22 +96,15 @@ body {
     padding: 110px 24px 54px;
 }
 
-/* Hero compacto: en las paginas de modulos el hero es una franja pequena
-   para que las estadisticas y la tabla se vean de inmediato (sin scroll).
-   La imagen llena todo el ancho (cover) con un encuadre que muestra el
-   camion; el gradiente lineal mantiene legible el texto encima. */
+/* Hero compacto: en las paginas de modulos el hero es una franja pequena.
+   No lleva imagen propia: deja ver el fondo global fijo del body. */
 .hero--compacto,
 .hero--compacto.hero--conductores,
 .hero--compacto.hero--rutas,
 .hero--compacto.hero--viajes {
     min-height: auto;
-    background-image:
-        linear-gradient(180deg, rgba(10,10,12,.45) 0%, rgba(10,10,12,.35) 45%, rgba(14,14,16,.96) 100%),
-        url('../assets/hero-camion.jpg');
-    background-size: cover;
-    background-position: center 30%;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
+    background: transparent;
+    border-bottom: none;
 }
 .hero--compacto .hero__overlay {
     padding: 96px 24px 28px;
@@ -240,7 +244,7 @@ body {
     margin-top: 24px;
     position: relative;
     padding: 14px 18px;
-    border-radius: 10px;
+    border-radius: 4px;
     font-weight: 600;
     border: 1px solid var(--line);
 }
@@ -260,7 +264,7 @@ body {
         linear-gradient(160deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 45%),
         var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 16px;
+    border-radius: 4px;
     padding: 24px 22px 22px;
     text-align: left;
     overflow: hidden;
@@ -354,7 +358,7 @@ body {
         linear-gradient(160deg, rgba(255,255,255,.04), rgba(255,255,255,0) 50%),
         var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 16px;
+    border-radius: 4px;
     padding: 20px 22px;
     text-decoration: none;
     color: var(--txt);
@@ -372,7 +376,7 @@ body {
     width: 54px; height: 54px;
     display: grid; place-items: center;
     font-size: 26px;
-    border-radius: 14px;
+    border-radius: 4px;
     background: radial-gradient(120% 120% at 30% 20%, rgba(200,169,106,.22), rgba(200,169,106,.06));
     border: 1px solid rgba(200,169,106,.35);
     box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 6px 16px rgba(0,0,0,.35);
@@ -411,7 +415,7 @@ body {
         linear-gradient(155deg, rgba(255,255,255,.05), rgba(255,255,255,0) 55%),
         var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 20px;
+    border-radius: 4px;
     padding: 26px 28px;
     text-decoration: none;
     color: var(--txt);
@@ -440,7 +444,7 @@ body {
     width: 66px; height: 66px;
     display: grid; place-items: center;
     font-size: 32px;
-    border-radius: 18px;
+    border-radius: 4px;
     background: radial-gradient(120% 120% at 30% 20%, rgba(200,169,106,.26), rgba(200,169,106,.07));
     border: 1px solid rgba(200,169,106,.4);
     box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 8px 20px rgba(0,0,0,.4);
@@ -494,7 +498,7 @@ body {
 .input {
     padding: 10px 14px;
     border: 1px solid var(--line);
-    border-radius: 9px;
+    border-radius: 4px;
     font-size: 14px;
     background: var(--bg-3);
     color: var(--txt);
@@ -510,7 +514,7 @@ body {
 .btn {
     padding: 10px 18px;
     border: none;
-    border-radius: 9px;
+    border-radius: 4px;
     font-weight: 700;
     font-size: 13px;
     letter-spacing: .5px;
@@ -535,7 +539,7 @@ body {
     margin-top: 18px;
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 4px;
     overflow: hidden;
 }
 .tabla { width: 100%; border-collapse: collapse; }
@@ -564,7 +568,7 @@ body {
 .badge {
     display: inline-block;
     padding: 4px 12px;
-    border-radius: 20px;
+    border-radius: 4px;
     font-size: 12px;
     font-weight: 700;
 }
@@ -586,7 +590,7 @@ body {
     background: var(--bg-3);
     color: var(--gold);
     width: 34px; height: 34px;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
     display: inline-grid;
     place-items: center;
@@ -627,7 +631,7 @@ body {
 .modal__box {
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 4px;
     padding: 28px;
     width: 100%;
     max-width: 520px;
@@ -677,7 +681,7 @@ body {
 .login-card {
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 16px;
+    border-radius: 4px;
     padding: 40px 34px;
     width: 100%;
     max-width: 400px;
@@ -809,7 +813,7 @@ body {
         linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,0) 55%),
         var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 16px;
+    border-radius: 4px;
     padding: 20px;
     overflow: hidden;
     transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
@@ -823,7 +827,7 @@ body {
     flex: 0 0 auto;
     width: 48px; height: 48px;
     display: grid; place-items: center;
-    border-radius: 13px;
+    border-radius: 4px;
     color: var(--gold);
     background: radial-gradient(120% 120% at 30% 20%, rgba(200,169,106,.22), rgba(200,169,106,.05));
     border: 1px solid rgba(200,169,106,.3);
@@ -846,7 +850,7 @@ body {
 .card-panel {
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 16px;
+    border-radius: 4px;
     padding: 22px;
 }
 .card-panel__title { font-size: 16px; font-weight: 700; margin-bottom: 16px; }

@@ -29,50 +29,104 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container dashboard">
 
         <!-- MENSAJES -->
         <div id="mensaje" class="mensaje" hidden></div>
 
-        <!-- ESTADÍSTICAS -->
-        <section class="stats">
-            <div class="stat stat--total">
-                <div class="stat__num" id="statTotal">0</div>
-                <div class="stat__label">Total viajes</div>
+        <!-- ENCABEZADO DEL PANEL -->
+        <header class="dash-head">
+            <div>
+                <h1 class="dash-head__title">Centro de Operaciones</h1>
+                <p class="dash-head__sub">Programación y seguimiento de viajes</p>
             </div>
-            <div class="stat stat--ruta">
-                <div class="stat__num" id="statTransito">0</div>
-                <div class="stat__label">En tránsito</div>
-            </div>
-            <div class="stat stat--mant">
-                <div class="stat__num" id="statRetrasados">0</div>
-                <div class="stat__label">Retrasados</div>
-            </div>
-            <div class="stat stat--ok">
-                <div class="stat__num" id="statFinalizados">0</div>
-                <div class="stat__label">Finalizados</div>
-            </div>
+            <span class="dash-head__date" id="dashFecha">—</span>
+        </header>
+
+        <!-- TARJETAS KPI -->
+        <section class="kpis">
+            <article class="kpi kpi--total">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16.2 7.8-2.9 6.3-6.3 2.9 2.9-6.3 6.3-2.9Z"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statTotal">0</span> Total</div>
+                    <div class="kpi__sub" id="kpiTotalSub">0 viajes</div>
+                </div>
+            </article>
+
+            <article class="kpi kpi--ruta">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v13H1Z"/><path d="M14 8h4l3 3v5h-7Z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statTransito">0</span> En tránsito</div>
+                    <div class="kpi__sub">En curso ahora</div>
+                </div>
+            </article>
+
+            <article class="kpi kpi--mant">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statRetrasados">0</span> Retrasados</div>
+                    <div class="kpi__sub">Requieren atención</div>
+                </div>
+            </article>
+
+            <article class="kpi kpi--ok">
+                <div class="kpi__icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1Z"/><path d="M4 22V4"/></svg>
+                </div>
+                <div class="kpi__body">
+                    <div class="kpi__main"><span class="kpi__num" id="statFinalizados">0</span> Finalizados</div>
+                    <div class="kpi__sub">Completados</div>
+                </div>
+            </article>
         </section>
 
-        <!-- BARRA DE ACCIONES -->
-        <section class="toolbar">
-            <div class="toolbar__filters">
-                <select id="filtroEstado" class="input">
-                    <option value="">Todos los estados</option>
-                    <option value="programado">Programado</option>
-                    <option value="en_transito">En tránsito</option>
-                    <option value="retrasado">Retrasado</option>
-                    <option value="finalizado">Finalizado</option>
-                    <option value="cancelado">Cancelado</option>
-                </select>
-                <input type="date" id="filtroFecha" class="input">
-                <button class="btn btn--ghost" id="btnBuscar">Buscar</button>
-            </div>
-            <button class="btn btn--primary" id="btnProgramar">+ Programar viaje</button>
+        <!-- PANELES: DISTRIBUCIÓN Y PROGRESO -->
+        <section class="dash-grid">
+            <article class="card-panel">
+                <h2 class="card-panel__title">Viajes por estado</h2>
+                <div class="barras" id="barrasEstado">
+                    <p class="card-panel__empty">Sin datos</p>
+                </div>
+            </article>
+
+            <article class="card-panel card-panel--cap">
+                <h2 class="card-panel__title">Tasa de finalización</h2>
+                <div class="cap">
+                    <div class="cap__info">
+                        <div class="cap__num"><span id="finCount">0</span> <small>finalizados</small></div>
+                        <div class="cap__det" id="finDetalle">de 0 viajes</div>
+                    </div>
+                    <div class="ring" id="finRing">
+                        <span class="ring__pct" id="finPct">0%</span>
+                    </div>
+                </div>
+            </article>
         </section>
 
-        <!-- TABLA -->
+        <!-- TABLA DE VIAJES -->
         <section class="card-table">
+            <div class="card-table__head">
+                <h2 class="card-table__title">Viajes</h2>
+                <div class="toolbar__filters">
+                    <select id="filtroEstado" class="input">
+                        <option value="">Todos los estados</option>
+                        <option value="programado">Programado</option>
+                        <option value="en_transito">En tránsito</option>
+                        <option value="retrasado">Retrasado</option>
+                        <option value="finalizado">Finalizado</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                    <input type="date" id="filtroFecha" class="input">
+                    <button class="btn btn--ghost" id="btnBuscar">Buscar</button>
+                </div>
+                <button class="btn btn--primary" id="btnProgramar">+ Programar viaje</button>
+            </div>
             <table class="tabla">
                 <thead>
                     <tr>

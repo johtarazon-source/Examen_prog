@@ -86,9 +86,21 @@ body {
 }
 
 /* Hero compacto: en las paginas de modulos el hero es una franja pequena
-   para que las estadisticas y la tabla se vean de inmediato (sin scroll). */
-.hero--compacto {
+   para que las estadisticas y la tabla se vean de inmediato (sin scroll).
+   La imagen se muestra completa (contain) centrada sobre el fondo oscuro;
+   se quita el gradiente lineal (que con contain se veria mal) y el
+   oscurecido lo aporta .hero::before. */
+.hero--compacto,
+.hero--compacto.hero--conductores,
+.hero--compacto.hero--rutas,
+.hero--compacto.hero--viajes {
     min-height: auto;
+    background-image: url('../assets/hero-camion.jpg');
+    background-size: contain;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-color: var(--bg);
 }
 .hero--compacto .hero__overlay {
     padding: 96px 24px 28px;

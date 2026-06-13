@@ -129,7 +129,7 @@ function renderDistancia(distancias) {
     const max = distancias.length ? Math.max(...distancias) : 1;
     const pct = max ? Math.round((prom / max) * 100) : 0;
     document.getElementById('distRing').style.background =
-        `conic-gradient(var(--gold) ${pct * 3.6}deg, rgba(255,255,255,.08) 0deg)`;
+        `conic-gradient(var(--accent) ${pct * 3.6}deg, var(--bg-3) 0deg)`;
 }
 
 // Distribucion de rutas por ciudad de origen (datos reales).
@@ -236,7 +236,7 @@ async function guardarRuta(e) {
 // ---------- Eliminar ----------
 
 async function eliminarRuta(id, descripcion) {
-    if (!confirm(`¿Eliminar la ruta ${descripcion}?`)) return;
+    if (!await confirmar({ titulo: 'Eliminar ruta', texto: `¿Eliminar la ruta ${descripcion}?`, confirmar: 'Eliminar' })) return;
 
     try {
         const res = await fetch(`${BASE}/${id}`, { method: 'DELETE' });

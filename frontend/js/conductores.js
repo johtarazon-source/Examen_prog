@@ -148,7 +148,7 @@ function renderLicencias(conductores) {
     document.getElementById('licPct').textContent = `${pct}%`;
 
     document.getElementById('licRing').style.background =
-        `conic-gradient(var(--gold) ${pct * 3.6}deg, rgba(255,255,255,.08) 0deg)`;
+        `conic-gradient(var(--accent) ${pct * 3.6}deg, var(--bg-3) 0deg)`;
 }
 
 // Distribucion por categoria de licencia (datos reales).
@@ -260,7 +260,7 @@ async function guardarConductor(e) {
 // ---------- Eliminar ----------
 
 async function eliminarConductor(id, nombre) {
-    if (!confirm(`¿Eliminar al conductor ${nombre}?`)) return;
+    if (!await confirmar({ titulo: 'Eliminar conductor', texto: `¿Eliminar al conductor ${nombre}?`, confirmar: 'Eliminar' })) return;
 
     try {
         const res = await fetch(`${BASE}/${id}`, { method: 'DELETE' });

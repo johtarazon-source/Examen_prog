@@ -149,7 +149,7 @@ function renderCapacidad(vehiculos) {
     // Anillo de progreso con conic-gradient
     const ring = document.getElementById('capRing');
     ring.style.background =
-        `conic-gradient(var(--gold) ${pct * 3.6}deg, rgba(255,255,255,.08) 0deg)`;
+        `conic-gradient(var(--accent) ${pct * 3.6}deg, var(--bg-3) 0deg)`;
 }
 
 // Barras de distribucion por tipo de vehiculo (datos reales).
@@ -260,7 +260,7 @@ async function guardarVehiculo(e) {
 // ---------- Eliminar ----------
 
 async function eliminarVehiculo(id, placa) {
-    if (!confirm(`¿Eliminar el vehículo ${placa}?`)) return;
+    if (!await confirmar({ titulo: 'Eliminar vehículo', texto: `¿Eliminar el vehículo ${placa}?`, confirmar: 'Eliminar' })) return;
 
     try {
         const res = await fetch(`${BASE}/${id}`, { method: 'DELETE' });

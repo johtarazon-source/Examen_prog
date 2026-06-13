@@ -146,7 +146,7 @@ function renderFinalizacion(total, finalizados) {
     document.getElementById('finDetalle').textContent = `de ${total} ${total === 1 ? 'viaje' : 'viajes'}`;
     document.getElementById('finPct').textContent = `${pct}%`;
     document.getElementById('finRing').style.background =
-        `conic-gradient(var(--gold) ${pct * 3.6}deg, rgba(255,255,255,.08) 0deg)`;
+        `conic-gradient(var(--accent) ${pct * 3.6}deg, var(--bg-3) 0deg)`;
 }
 
 // Distribucion de viajes por estado (datos reales).
@@ -199,7 +199,7 @@ async function accionViaje(id, ruta, metodo, exito) {
 
 function iniciarViaje(id)  { accionViaje(id, 'iniciar', 'PUT', 'Viaje iniciado'); }
 function finalizarViaje(id) {
-    if (!confirm(`¿Finalizar el viaje #${id}?`)) return;
+    if (!await confirmar({ titulo: 'Finalizar viaje', texto: `¿Finalizar el viaje #${id}?`, confirmar: 'Finalizar' })) return;
     accionViaje(id, 'finalizar', 'PUT', 'Viaje finalizado');
 }
 
@@ -398,7 +398,7 @@ async function guardarProgramacion(e) {
 }
 
 function cancelarViaje(id) {
-    if (!confirm(`¿Cancelar el viaje #${id}?`)) return;
+    if (!await confirmar({ titulo: 'Cancelar viaje', texto: `¿Cancelar el viaje #${id}?`, confirmar: 'Cancelar viaje' })) return;
     accionViaje(id, 'cancelar', 'PUT', 'Viaje cancelado');
 }
 

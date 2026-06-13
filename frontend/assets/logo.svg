@@ -7,7 +7,7 @@
   </defs>
   <!-- Emblema redondeado -->
   <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#lt-emblem)"/>
-  <!-- Globo/orbita: arco que sugiere alcance global -->
+  <!-- Globo / orbita -->
   <path d="M14 32a18 18 0 0 1 36 0" fill="none" stroke="#bfdbfe" stroke-width="2" stroke-linecap="round" opacity=".55"/>
   <ellipse cx="32" cy="26" rx="17" ry="6.5" fill="none" stroke="#bfdbfe" stroke-width="2" opacity=".45"/>
   <!-- Camion estilizado (vista lateral, plano) -->

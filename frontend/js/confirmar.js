@@ -1,15 +1,9 @@
-// =====================================================
-// Confirmacion con el diseno de la aplicacion (reemplaza al confirm()
-// nativo del navegador). Devuelve una Promise<boolean>:
-//   if (await confirmar('¿Eliminar?')) { ... }
-// Reutiliza las clases .modal / .modal__box / .btn ya definidas en el CSS.
-// =====================================================
-
+// Reemplazo del confirm() del navegador por un modal propio.
+// Se usa con await: if (await confirmar('¿Eliminar?')) { ... }
 (function () {
 
-    let resolver = null; // funcion para resolver la Promise activa
+    let resolver = null;
 
-    // Construye el modal una sola vez y lo deja oculto en el DOM.
     function crearModal() {
         const overlay = document.createElement('div');
         overlay.className = 'modal';
@@ -33,7 +27,7 @@
 
         aceptar.addEventListener('click', () => cerrar(true));
         cancelar.addEventListener('click', () => cerrar(false));
-        // Clic fuera del cuadro o tecla Escape => cancelar
+        // Clic fuera o Escape cuenta como cancelar
         overlay.addEventListener('click', e => { if (e.target === overlay) cerrar(false); });
         document.addEventListener('keydown', e => {
             if (!overlay.hidden && e.key === 'Escape') cerrar(false);
@@ -51,7 +45,7 @@
         }
     }
 
-    // API publica. Acepta texto o un objeto { texto, titulo, confirmar }.
+    // Se puede pasar solo el texto, o un objeto { texto, titulo, confirmar }.
     window.confirmar = function (opciones) {
         const cfg = typeof opciones === 'string' ? { texto: opciones } : (opciones || {});
 

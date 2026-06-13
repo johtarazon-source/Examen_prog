@@ -1,13 +1,13 @@
 /* =====================================================
    LOGITRANS - Sistema de Control de Transporte
-   Design system: Real-Time Operations (dark, navy + sky)
-   Tokens semanticos unicos; un solo acento (azul cielo).
+   Tema claro, azul corporativo. Las variables guardan
+   los colores en un solo lugar.
    ===================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* --- Superficies (claro: blanco limpio + gris azulado) --- */
+    /* --- Fondos (blanco + gris azulado claro) --- */
     --bg:        #f4f7fb;   /* fondo general (gris azulado muy claro) */
     --bg-2:      #ffffff;   /* paneles / cards (blanco) */
     --bg-3:      #f1f5fa;   /* filas / inputs */
@@ -53,8 +53,8 @@ body {
     font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     color: var(--txt);
     padding-bottom: 50px;
-    /* Fondo global: foto del camion fija a pantalla completa con un velo
-       claro encima, para que las cards blancas y el texto sigan legibles. */
+    /* Foto del camion de fondo, fija, con una capa clara encima para que
+       las cards y el texto se lean bien. */
     background:
         linear-gradient(180deg, rgba(244,247,251,.86) 0%, rgba(244,247,251,.92) 100%),
         url('../assets/hero-camion.jpg');
@@ -67,8 +67,7 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-/* Cifras tabulares en todos los datos numericos: evita saltos de layout
-   y da el aspecto "de producto" en KPIs, tablas y metricas. */
+/* Numeros con ancho fijo para que las columnas no bailen al cambiar de valor. */
 .stat__num, .kpi__num, .cap__num, .ring__pct, .barra__val,
 .tabla tbody td, .badge { font-variant-numeric: tabular-nums; }
 
@@ -122,8 +121,7 @@ body {
     padding: 110px 24px 54px;
 }
 
-/* Hero compacto: franja transparente que deja ver la foto del fondo
-   global. El texto va en oscuro legible sobre el velo claro. */
+/* En los modulos el hero es una franja transparente para ver la foto de atras. */
 .hero--compacto,
 .hero--compacto.hero--conductores,
 .hero--compacto.hero--rutas,
@@ -170,9 +168,9 @@ body {
     overflow: hidden;
     box-shadow: 0 8px 22px rgba(15,30,54,.28);
 }
-/* El logo es la imagen SVG (que ya trae su emblema de marca). */
+/* El logo es la imagen SVG, que ocupa todo el cuadro. */
 .hero__logo img, .hero__logo svg { width: 100%; height: 100%; display: block; }
-/* En la portada (hero con foto) un anillo claro separa el logo del fondo */
+/* En la portada le ponemos un borde claro para que resalte sobre la foto */
 .hero:not(.hero--compacto) .hero__logo {
     box-shadow: 0 8px 24px rgba(0,0,0,.45), 0 0 0 4px rgba(255,255,255,.14);
 }
@@ -304,7 +302,7 @@ body {
     overflow: hidden;
     transition: border-color .18s ease, background .18s ease;
 }
-/* Acento lateral plano (sin neon): identifica la metrica con sobriedad */
+/* Barrita de color al lado izquierdo de cada tarjeta */
 .stat::before {
     content: '';
     position: absolute;
@@ -383,7 +381,7 @@ body {
     border-color: var(--line-soft);
     background: var(--surface-2);
 }
-/* Chip plano del icono: fondo translucido del acento, sin relieve */
+/* Cuadrito del icono con fondo azul suave */
 .acceso__icono {
     flex: 0 0 auto;
     width: 48px; height: 48px;
@@ -435,7 +433,7 @@ body {
     border-color: var(--accent);
     background: var(--surface-2);
 }
-/* Chip grande plano del icono */
+/* Cuadrito del icono, version grande */
 .modulo__icono {
     flex: 0 0 auto;
     width: 60px; height: 60px;
@@ -573,7 +571,7 @@ body {
     font-weight: 600;
     letter-spacing: .2px;
 }
-/* Punto indicador: el estado no depende solo del color (accesibilidad) */
+/* Puntico de color para distinguir el estado sin depender solo del color */
 .badge::before {
     content: '';
     width: 6px; height: 6px;
@@ -849,7 +847,7 @@ body {
 .kpi__main { font-size: 17px; font-weight: 600; }
 .kpi__num  { font-size: 26px; font-weight: 700; margin-right: 4px; }
 .kpi__sub  { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
-/* Acentos de color por tipo de KPI (solo el icono, fondo translucido plano) */
+/* Cada KPI cambia el color de su icono segun el tipo */
 .kpi--ruta .kpi__icon { color: var(--info);   background: rgba(56,189,248,.12); }
 .kpi--ok   .kpi__icon { color: var(--ok);     background: rgba(52,211,153,.12); }
 .kpi--mant .kpi__icon { color: var(--orange); background: rgba(251,146,60,.12); }

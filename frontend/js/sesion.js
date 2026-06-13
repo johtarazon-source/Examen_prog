@@ -1,28 +1,17 @@
-// =====================================================
-// Barra de usuario y control de acceso. La autenticacion es obligatoria:
-// las paginas protegidas (todas las que cargan este script) exigen una
-// sesion activa; si no hay token guardado se redirige al login.
-// Se muestra el usuario de la sesion y se conserva el cierre de sesion.
-// =====================================================
-
-// Todo vive dentro de una IIFE para no contaminar el ambito global
-// que comparten vehiculos.js / conductores.js (evita choques de nombres).
+// Barra de usuario y control de acceso. Si no hay token, manda al login.
+// Va en una IIFE para no chocar con las variables globales de los otros JS.
 (function () {
 
-    // Guard de sesion: sin token no se permite el acceso al modulo.
-    // login.html NO carga este script, por lo que no se bloquea a si mismo.
+    // login.html no carga este script, asi que no se bloquea a si mismo.
     if (!localStorage.getItem('token')) {
         window.location.replace('login.html');
         return;
     }
 
-    // Usuario de la sesion iniciada.
     const usuario = obtenerUsuario() || { nombre: 'Usuario', rol: 'administrador' };
 
-    // Cuando el DOM este listo, pintar la barra de usuario.
     document.addEventListener('DOMContentLoaded', () => pintarBarraUsuario(usuario));
 
-// ---------- Utilidades ----------
 
 function obtenerUsuario() {
     try {

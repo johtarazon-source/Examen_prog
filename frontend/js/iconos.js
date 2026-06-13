@@ -1,9 +1,4 @@
-// =====================================================
-// Iconos SVG inline (monocromaticos, heredan currentColor)
-// Reemplazan a los emojis para una apariencia mas profesional
-// y consistente en todos los modulos.
-// Debe incluirse ANTES de los scripts de cada modulo.
-// =====================================================
+
 
 const ICO = {
     // Editar (lapiz)

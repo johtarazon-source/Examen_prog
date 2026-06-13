@@ -1,6 +1,3 @@
-// =====================================================
-// Inicio de sesion - consumo de ms-auth con fetch
-// =====================================================
 
 const form     = document.getElementById('formLogin');
 const mensaje  = document.getElementById('mensaje');

@@ -71,11 +71,7 @@ body {
 .stat__num, .kpi__num, .cap__num, .ring__pct, .barra__val,
 .tabla tbody td, .badge { font-variant-numeric: tabular-nums; }
 
-/* =====================================================
-   NAVBAR SUPERIOR (horizontal, estilo referencia)
-   La estructura existente: header.hero > .hero__overlay > .nav
-   Reinterpretamos .hero como un hero full-width con la nav arriba.
-   ===================================================== */
+
 
 .hero {
     position: relative;

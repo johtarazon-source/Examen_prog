@@ -1,6 +1,3 @@
-// =====================================================
-// Gestion de Rutas - consumo de la API REST con fetch
-// =====================================================
 
 const BASE = `${API_RUTAS}/rutas`;
 
